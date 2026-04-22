@@ -1,0 +1,1806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Resource Portfolio – ENED 2200</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --cream: #fdf6ee;
+      --warm-white: #fffdf9;
+      --sage: #7a9e7e;
+      --sage-light: #b5ceb8;
+      --rust: #c0623a;
+      --rust-light: #e8a98a;
+      --gold: #c9a84c;
+      --deep: #2d2d2d;
+      --mid: #5c5c5c;
+      --light: #9a9a9a;
+      --border: #e8ddd0;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    input, textarea {
+      cursor: default;
+    }
+
+    .input-display {
+      background: transparent;
+      border: none;
+      outline: none;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      color: var(--deep);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .hero .input-display {
+      color: var(--cream);
+      font-size: 14px;
+      font-weight: 300;
+    }
+
+    .textarea-display {
+      width: 100%;
+      background: transparent;
+      border: none;
+      outline: none;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      color: var(--mid);
+      line-height: 1.7;
+      white-space: pre-wrap;
+      overflow-y: auto;
+      min-height: 120px;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--deep);
+      min-height: 100vh;
+    }
+
+    /* ── SIDEBAR NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0;
+      width: 240px;
+      height: 100vh;
+      background: var(--deep);
+      padding: 40px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      z-index: 100;
+      overflow-y: auto;
+    }
+
+    nav .nav-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      color: var(--cream);
+      margin-bottom: 28px;
+      line-height: 1.4;
+      border-bottom: 1px solid #444;
+      padding-bottom: 16px;
+    }
+
+    nav .nav-title span {
+      display: block;
+      font-size: 11px;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      color: var(--light);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    nav a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 12px;
+      border-radius: 6px;
+      color: #bbb;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 400;
+      transition: all 0.2s;
+    }
+
+    nav a:hover, nav a.active {
+      background: rgba(255,255,255,0.08);
+      color: var(--cream);
+    }
+
+    nav a .num {
+      font-family: 'Playfair Display', serif;
+      font-size: 11px;
+      color: var(--gold);
+      min-width: 18px;
+    }
+
+    /* ── MAIN ── */
+    main {
+      margin-left: 240px;
+      min-height: 100vh;
+    }
+
+    /* ── HERO / TITLE PAGE ── */
+    .hero {
+      background: var(--deep);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 80px 80px 80px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 400px; height: 400px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(122,158,126,0.15) 0%, transparent 70%);
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -80px; left: 40px;
+      width: 300px; height: 300px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(192,98,58,0.12) 0%, transparent 70%);
+    }
+
+    .hero-tag {
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--sage);
+      margin-bottom: 24px;
+      font-weight: 500;
+    }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(42px, 6vw, 72px);
+      color: var(--warm-white);
+      line-height: 1.1;
+      margin-bottom: 40px;
+    }
+
+    .hero h1 em {
+      color: var(--gold);
+      font-style: italic;
+    }
+
+    .hero-meta {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 20px;
+      max-width: 600px;
+    }
+
+    .meta-field {
+      border-top: 1px solid #3a3a3a;
+      padding-top: 14px;
+    }
+
+    .meta-field label {
+      display: block;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--light);
+      margin-bottom: 6px;
+    }
+
+    .meta-field input, .meta-field textarea {
+      background: transparent;
+      border: none;
+      color: var(--cream);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 300;
+      width: 100%;
+      outline: none;
+      resize: none;
+    }
+
+    .meta-field input::placeholder, .meta-field textarea::placeholder {
+      color: #555;
+    }
+
+    /* ── SECTIONS ── */
+    section {
+      min-height: 100vh;
+      padding: 80px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    section:nth-child(even) {
+      background: var(--warm-white);
+    }
+
+    .section-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+      margin-bottom: 48px;
+    }
+
+    .section-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 60px;
+      color: var(--border);
+      line-height: 1;
+      min-width: 70px;
+      margin-top: -8px;
+    }
+
+    .section-title-block h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 32px;
+      color: var(--deep);
+      margin-bottom: 6px;
+    }
+
+    .section-title-block p {
+      font-size: 13px;
+      color: var(--mid);
+      line-height: 1.6;
+      max-width: 500px;
+    }
+
+    /* ── TABLE OF CONTENTS ── */
+    .toc-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+    }
+
+    .toc-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 16px 20px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--cream);
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+      color: var(--deep);
+    }
+
+    .toc-item:hover {
+      border-color: var(--sage);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.07);
+    }
+
+    .toc-item .toc-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      color: var(--gold);
+      min-width: 30px;
+    }
+
+    .toc-item-title {
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .toc-page {
+      margin-left: auto;
+      font-size: 12px;
+      color: var(--light);
+    }
+
+    /* ── ENTRY CARD ── */
+    .entries-list {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .entry-card {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      background: var(--warm-white);
+    }
+
+    .entry-card-header {
+      display: flex;
+      align-items: center;
+      padding: 16px 20px;
+      background: var(--cream);
+      border-bottom: 1px solid var(--border);
+      gap: 8px;
+    }
+
+    .entry-card-num {
+      flex-shrink: 0;
+    }
+
+    .entry-card-header input {
+      font-family: 'Playfair Display', serif;
+      font-size: 16px;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--deep);
+      flex: 1;
+    }
+
+    .entry-card-header input::placeholder { color: var(--light); }
+
+    .entry-card-body {
+      padding: 20px;
+    }
+
+    .entry-card-body textarea {
+      width: 100%;
+      min-height: 120px;
+      background: transparent;
+      border: none;
+      outline: none;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      color: var(--mid);
+      line-height: 1.7;
+      resize: vertical;
+    }
+
+    .entry-card-body textarea::placeholder { color: #bbb; }
+
+    .entry-card-meta {
+      display: flex;
+      gap: 12px;
+      padding: 0 20px 16px;
+      flex-wrap: wrap;
+    }
+
+    .entry-card-meta input {
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 6px 10px;
+      font-size: 12px;
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--mid);
+      outline: none;
+    }
+
+    /* ── READING RECORD TABLE ── */
+    .reading-table-wrap {
+      overflow-x: auto;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    thead th {
+      background: var(--deep);
+      color: var(--cream);
+      padding: 12px 16px;
+      text-align: left;
+      font-weight: 500;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    tbody tr {
+      border-bottom: 1px solid var(--border);
+      transition: background 0.15s;
+    }
+
+    tbody tr:hover { background: rgba(122,158,126,0.06); }
+
+    tbody td {
+      padding: 10px 16px;
+    }
+
+    tbody td input {
+      background: transparent;
+      border: none;
+      outline: none;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      color: var(--deep);
+      width: 100%;
+    }
+
+    tbody td input::placeholder { color: #ccc; }
+
+    /* ── ADD BUTTON ── */
+    .add-btn { display: none; }
+      margin-top: 20px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border: 1px dashed var(--sage);
+      border-radius: 6px;
+      background: transparent;
+      color: var(--sage);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .add-btn:hover {
+      background: var(--sage);
+      color: white;
+      border-style: solid;
+    }
+
+    /* ── LINK SECTION ── */
+    .link-card {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background: var(--warm-white);
+    }
+
+    .link-icon {
+      width: 44px; height: 44px;
+      border-radius: 8px;
+      background: var(--sage-light);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+
+    .link-card input {
+      flex: 1;
+      border: none;
+      border-bottom: 1px solid var(--border);
+      background: transparent;
+      padding: 6px 0;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      color: var(--rust);
+      outline: none;
+    }
+
+    .link-card input::placeholder { color: var(--light); }
+
+    /* ── ACCENT TAGS ── */
+    .section-accent {
+      display: inline-block;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 20px;
+      margin-bottom: 8px;
+    }
+
+    .accent-sage { background: rgba(122,158,126,0.15); color: var(--sage); }
+    .accent-rust { background: rgba(192,98,58,0.12); color: var(--rust); }
+    .accent-gold { background: rgba(201,168,76,0.15); color: var(--gold); }
+
+    /* ── PRINT/DIVIDER ── */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin: 32px 0;
+    }
+
+    .divider hr { flex: 1; border: none; border-top: 1px solid var(--border); }
+    .divider span { font-size: 11px; color: var(--light); letter-spacing: 0.08em; text-transform: uppercase; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { display: none; }
+      main { margin-left: 0; }
+      section, .hero { padding: 48px 24px; }
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    section { animation: fadeUp 0.5s ease both; }
+  </style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<nav>
+  <div class="nav-title">
+    <span>ENED 2200-01</span>
+    Resource Portfolio
+  </div>
+  <a href="#title" class="active"><span class="num">✦</span> Title Page</a>
+  <a href="#toc"><span class="num">2</span> Table of Contents</a>
+  <a href="#lit-discussions"><span class="num">3</span> Literature Discussions</a>
+  <a href="#blog-reviews"><span class="num">4</span> Blog Reviews</a>
+  <a href="#learning-experiences"><span class="num">5</span> Learning Experiences</a>
+  <a href="#reading-record"><span class="num">6</span> Reading Record</a>
+  <a href="#picture-book"><span class="num">7</span> Picture Book</a>
+  <a href="#book-study"><span class="num">8</span> Book Study Presentation</a>
+</nav>
+
+<main>
+
+  <!-- 1. TITLE PAGE -->
+  <div class="hero" id="title">
+    <div class="hero-tag">ENED 2200-01 · Exploring Literature for Children</div>
+    <h1>Resource<br/><em>Portfolio</em></h1>
+    <div class="hero-meta">
+      <div class="meta-field">
+        <label>Your Name</label>
+        <div class="input-display"  >Luke Frain</div>
+      </div>
+      <div class="meta-field">
+        <label>Professor</label>
+        <div class="input-display"  >Molly Collins</div>
+      </div>
+      <div class="meta-field">
+        <label>Date of Submission</label>
+        <div class="input-display"  >April 22, 2026</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. TABLE OF CONTENTS -->
+  <section id="toc">
+    <div class="section-header">
+      <div class="section-number">02</div>
+      <div class="section-title-block">
+        <span class="section-accent accent-gold">Navigation</span>
+        <h2>Table of Contents</h2>
+        <p>All 8 components of the portfolio. Click any item to jump to that section.</p>
+      </div>
+    </div>
+    <div class="toc-grid">
+      <a class="toc-item" href="#title"><span class="toc-num">1</span><span class="toc-item-title">Title Page</span><span class="toc-page">p.1</span></a>
+      <a class="toc-item" href="#toc"><span class="toc-num">2</span><span class="toc-item-title">Table of Contents</span><span class="toc-page">p.2</span></a>
+      <a class="toc-item" href="#lit-discussions"><span class="toc-num">3</span><span class="toc-item-title">Literature Discussions</span><span class="toc-page">p.3</span></a>
+      <a class="toc-item" href="#blog-reviews"><span class="toc-num">4</span><span class="toc-item-title">Blog Reviews</span><span class="toc-page">p.4</span></a>
+      <a class="toc-item" href="#learning-experiences"><span class="toc-num">5</span><span class="toc-item-title">Learning Experiences</span><span class="toc-page">p.5</span></a>
+      <a class="toc-item" href="#reading-record"><span class="toc-num">6</span><span class="toc-item-title">Reading Record</span><span class="toc-page">p.6</span></a>
+      <a class="toc-item" href="#picture-book"><span class="toc-num">7</span><span class="toc-item-title">Picture Book</span><span class="toc-page">p.7</span></a>
+      <a class="toc-item" href="#book-study"><span class="toc-num">8</span><span class="toc-item-title">Book Study Presentation</span><span class="toc-page">p.8</span></a>
+    </div>
+  </section>
+
+  <!-- 3. LITERATURE DISCUSSIONS -->
+  <section id="lit-discussions">
+    <div class="section-header">
+      <div class="section-number">03</div>
+      <div class="section-title-block">
+        <span class="section-accent accent-sage">Discussion Notes</span>
+        <h2>Literature Discussions</h2>
+      </div>
+    </div>
+    <div class="entries-list" id="lit-list">
+
+      <!-- Towers Falling -->
+      <div class="entry-card">
+        <div class="entry-card-header">
+          <div class="input-display"  >Towers Falling</div>
+        </div>
+        <div class="entry-card-meta">
+          <div class="input-display"  style="width:200px">Jewell Parker Rhodes</div>
+          <div class="input-display"  style="width:160px">January 22</div>
+          <div class="input-display"  style="width:220px">Discussion Leader: Luke Frain</div>
+        </div>
+        <div class="entry-card-body">
+          <div class="textarea-display"  style="min-height:320px;">Discussion Questions:
+
+Q: Throughout the novel, circles of community are an important motif. They are even the design for section breaks. What are three circles of community that Deja belongs to, and how do they influence her?
+A: Her classroom, her friend group (Ben and Sabeen), and her family. Her classroom encourages Deja to ask questions. Within her friend group, Deja is challenged to have hard, emotionally-charged conversations — they give her support to talk about things she doesn't know how to. In her family, Deja learns lessons of sacrifice, responsibility, and defense mechanisms.
+
+Q: Pop often says that Deja is "too young" to know what happened to the towers. Based on Deja's revelation at the end of the novel, how old do you think is old enough to teach children about 9/11 and other catastrophic events?
+A: Given that Deja was already familiar with the idea of terrorism, I don't think she was too young to know about 9/11. I think her living in New York and having her family personally experience the horrors of that day means that she had a right to know. Generally 3rd–4th grade is an appropriate time to talk about these events with children, but it is important to be very deliberate and cautious about how one does it.
+
+Q: How do easily accessible views of 9/11 on the internet influence children of this age? Is it okay for children to discover the horrors of 9/11 on their own?
+A: I grew up seeing memes relating to 9/11 on the internet, so I think it's pretty much unavoidable. However, it wouldn't be difficult for a child to intentionally or unintentionally stumble across upsetting footage online, even with restrictions.
+
+Q: On page 188, the people on the subway pass around the baklava Sabeen makes. What is the significance of this scene?
+A: This scene was significant because it was a chance for Ben and Deja to witness the concepts of a diverse community that they had been discussing in their classroom — in a real setting with people of all ages.
+
+Q: On page 210, Pops talks about how "working in the towers means you made it." How does this influence the tragedy of 9/11 and our perception of what it means to "make it"?
+
+Q: On page 213, Pop recalls the story of Mrs. Able spiraling down the stairwell during the chaos of the towers falling. Why do you think Jewell Parker Rhodes included this scene? How do personal stories influence our understanding of historical events we never witnessed?
+A: We discussed at what age it is appropriate to learn about these large-scale disasters, whether this should be taught in schools or at home, and how those conversations may differ.</div>
+        </div>
+      </div>
+
+      <!-- Wishtree -->
+      <div class="entry-card">
+        <div class="entry-card-header">
+          <div class="input-display"  >Wishtree</div>
+        </div>
+        <div class="entry-card-meta">
+          <div class="input-display"  style="width:200px">Katherine Applegate</div>
+          <div class="input-display"  style="width:160px">February 12</div>
+          <div class="input-display"  style="width:220px">Discussion Leader: Avery Gould</div>
+        </div>
+        <div class="entry-card-body">
+          <div class="textarea-display"  style="min-height:340px;">Discussion Questions:
+
+Q: Red is a tree, yet the narration feels human and emotionally perceptive. Why do you think Applegate chose a tree as the narrator? What does Red see or understand that human characters do not?
+A: Red is an old, wise tree that has witnessed generations of humanity. Having the perspective of a tree includes tidbits on nature — some trees are on the gender binary, some aren't — and emphasizes tradition and things that have existed a long time. Red offers an unbiased perspective and represents a community of animals within the tree as well as the wider human community around it. Feeling pain may be difficult for children to conceptualize.
+
+Q: Red ultimately chooses to speak at the end of the novel. What does silence represent, and at what point does silence become harmful?
+A: This moment fosters agency in kids — there is a lot of lead-up making it a great discussion topic about speaking up (#SEL). Speaking up represents a social justice moment: your voice is significant and can make a big impact. Because Red hadn't spoken up until the end, that moment carries a lot of meaning.
+
+Q: The wish tree tradition both brings the community together and becomes the setting for division. How does it symbolize both belonging and exclusion?
+A: Belonging cannot exist without exclusion. Even as unbiased as Red is, they were used as a tool to hurt Samar. Writing "LEAVE" on Red signifies permanence — "this was a part of our community, why are YOU trying to join it?" The character who carved it is left anonymous because it's more about the belief than the individual.
+
+Q: The conflict centers on fear directed toward Samar and her family. How does the novel portray the way fear spreads within a community?
+
+Q: Red reflects on cycles of growth, death, and renewal. Do you think the story is ultimately hopeful?
+
+Q: Applegate uses spare, simple language. How does the simplicity of the writing influence the emotional weight of the story?
+A: The simplicity mirrors what an oak tree does for the community.</div>
+        </div>
+      </div>
+
+      <!-- The Crossover -->
+      <div class="entry-card">
+        <div class="entry-card-header">
+          <div class="input-display"  >The Crossover</div>
+        </div>
+        <div class="entry-card-meta">
+          <div class="input-display"  style="width:200px">Kwame Alexander</div>
+          <div class="input-display"  style="width:160px">February 19</div>
+          <div class="input-display"  style="width:220px">Discussion Leader: Sophia Pechin</div>
+        </div>
+        <div class="entry-card-body">
+          <div class="textarea-display"  style="min-height:360px;">Discussion Questions:
+
+Q: The author uses frequent "basketball rules" throughout the novel. What do you think the purpose of these rules is?
+A: Underlying themes like brotherhood, conflict, and family relations. Teams are like families. Basketball is used to process life because life doesn't have rules but basketball does.
+
+Q: Themes of social injustice are woven throughout. Why might Alexander choose basketball as the framework for exploring these injustices?
+A: More realistic and approachable, easy to grasp and make sense of. Is this a limiting map? Children of color are more than basketball players — more of a mirror than a map. Other factors are more important than basketball.
+
+Q: Josh and JB's dad struggles with health complications and fears doctors. What effect does this have on Josh and JB and how does it connect to male vulnerability?
+A: Kids are impressionable to their parents' ideals. There is a stereotype that men don't need to ask for help — reinforcing ideals, especially with the dad's death at the end, helps make sure it's okay to ask for help. The dad being Black and his father also dying from this disease adds another layer. Lack of transparency leaves Josh fragile.
+
+Q: Kwame Alexander displays words representing actions (see pg. 149, pg. 221). What type of poem does this remind you of? What does it add to the story?
+A: Makes it really fun for the reader. Adds to action — fast paced and exciting. Resemblance to hip-hop and the beat of basketball. Works well because of balance.
+
+Q: After Josh and JB lose their dad, Josh states he was "unprepared for death." What does the word "unprepared" signal about how loss affects young people?
+A: Shows how they took him for granted. They never thought their parents would pass away. Their dad was their biggest role model.
+
+Q: At the end of the novel, JB slides their dad's championship ring onto Josh's finger. What does this represent?
+A: Passing of the guard — it's time to grow up now. Take what he taught you and live in his honor. (Why just Josh?)
+
+Q: As the story progresses, Josh and JB's relationship grows and changes. What does the story illustrate about sibling love and brotherhood?
+
+Q: Josh and JB constantly feel the expectation to live up to their dad's legacy. Does the pressure motivate them to succeed or prevent them from developing their own identities? (DID NOT GET TO THIS QUESTION)</div>
+        </div>
+      </div>
+
+      <!-- Where the Mountain Meets the Moon -->
+      <div class="entry-card">
+        <div class="entry-card-header">
+          <div class="input-display"  >Where the Mountain Meets the Moon</div>
+        </div>
+        <div class="entry-card-meta">
+          <div class="input-display"  style="width:200px">Grace Lin</div>
+          <div class="input-display"  style="width:160px">February 26</div>
+          <div class="input-display"  style="width:220px">Discussion Leader: Luke Frain</div>
+        </div>
+        <div class="entry-card-body">
+          <div class="textarea-display"  style="min-height:300px;">Discussion Notes:
+
+Change in Ma's Stories + Turning Point:
+- Character development shows growth and change from within — parallel and reflection of story, in steps and progression.
+- Came back to make a connection to Ma and Ba's encounter with the goldfish man while out looking for Minli, and they decide to go back home.
+
+Name one thing Minli took with her on her journey:
+- A singular bronze coin — trying to give to orphan boy with buffalo, then almost not being able to get rid of it.
+- Bamboo + rice bowl + water to make a compass to help on her journey.
+
+Why end with the Goldfish Man?
+- Wrapping everything up with what started it all. Goldfish symbolism: fate, the choices she made along the way. He wasn't along the journey — she had the answer all along.
+
+Paper of Happiness — thankfulness:
+- We see thankfulness (or the lack of it) in every single character.
+- Why choose "thankfulness" over "gratitude"? It doesn't matter what one's wealth status is — it's free to be thankful.
+- Why couldn't they read it at the beginning of the book? It's hard to be thankful unless you are intentional about it (similar to hearing the fish when you "believe").
+
+What story stood out the most?
+- Wu Kang's lesson being the Village of Moon Rain's blessing.
+- Tale of the Dragon — #friendship.
+- Village/family who were always happy; Tiger Magistrate very angry.
+
+Why did this book win the Newbery Medal?
+- Symbolism. Writes about children in a realistic, not overly naive or misconstrued way.</div>
+        </div>
+      </div>
+
+      <!-- Becoming Naomi León -->
+      <div class="entry-card">
+        <div class="entry-card-header">
+          <div class="input-display"  >Becoming Naomi León</div>
+        </div>
+        <div class="entry-card-meta">
+          <div class="input-display"  style="width:200px">Pam Muñoz Ryan</div>
+          <div class="input-display"  style="width:160px">March 5</div>
+          <div class="input-display"  style="width:220px">Discussion Leader: Jennifer Andrews</div>
+        </div>
+        <div class="entry-card-body">
+          <div class="textarea-display"  style="min-height:360px;">Discussion Questions:
+
+Q: Which character left the strongest emotional or personal impact on you?
+A: Most significant characters: Naomi, Gram, Owen, Skyla, Clive, Blanca, Bernardo & Fabiola, Father (Santiago).
+- Gram: Taking action, knows what's right and that she needs to stand up for her kids. "I'd give up everything, and now I am" — disregarding her Wheel of Fortune streak because she cares most about her kids.
+- Naomi: Looking out for Owen, bravery, resilience through trauma with Skyla. Transition with finding her voice — more worried about speaking up and saying the wrong things → court scene where she becomes her own person.
+
+Q: Why do you think Pam Muñoz Ryan titled the book Becoming Naomi León rather than simply Naomi León?
+A: The entire book is the becoming. It's incremental — experiences that build who you are.
+
+Q: How did you interpret Naomi's silence while reading?
+A: History: selective mutism. Naomi caught between two worlds — wants to please Skyla and have a mother, but Gram and Owen are her family that she knows and that have always been supportive. Bilingual children may begin to speak later. Mostly trauma-induced.
+
+Q: What cultural details stood out to you most?
+A: Catholic influences — Soledad, saints and churches. Carving — very cool to read about. Trailer Park: you can be content even if you don't have many physical things. She's happier without her mother in a trailer park.
+
+Q: How effectively does the book handle substance abuse, being raised by a guardian, and characters with birth defects/deformities?
+- Substance abuse: When can it be appropriately introduced to children? Elementary–middle school. Hard/confusing read without an adult to scaffold. The back of the book doesn't even mention alcohol — parent backlash possible.
+- Characters with birth defects/deformities: Connection to Wonder. What's the symbolism/deeper meaning with the tape? Coping mechanism (form of stimming?). Fetal Alcohol Syndrome? Because of the mother? Maybe she dislikes her son because of how he appears — and because she realizes it's a result of her actions.
+
+Q: What assumptions does the author seem to make about her readers? (Did not get to answer.)</div>
+        </div>
+      </div>
+
+      <!-- A Place at the Table -->
+      <div class="entry-card">
+        <div class="entry-card-header">
+          <div class="input-display"  >A Place at the Table</div>
+        </div>
+        <div class="entry-card-meta">
+          <div class="input-display"  style="width:200px">Sharon Heal</div>
+          <div class="input-display"  style="width:160px">March 19</div>
+          <div class="input-display"  style="width:220px">Discussion Leader: Mia Becher</div>
+        </div>
+        <div class="entry-card-body">
+          <div class="textarea-display"  style="min-height:300px;">Discussion Questions:
+
+Q: What does the title mean to you in the context of the story?
+A: Accepting and including everyone. Thanksgiving.
+
+Q: How was food symbolic in the story?
+A: Food is symbolic because it's both a way characters connect to their own culture and to each other's culture — a gateway into the new culture (window and mirror). The British mom being unable to cook was emphasized comically.
+
+Q: Why do you think the author made Maddie and Stephanie (the bad guys) win the cook-off?
+A: It was realistic — Stephanie has her own cooking business. The author may have wanted things to be explicit and obvious. But it's not about the food — it's about the journey!!
+
+Q: How was racism and bullying addressed in the story (overtly, subtly, etc.)?
+A: Overtly — when she yelled "these Arabs need to leave."
+
+Q: In what context should this book be read (full class, independently, grade)?
+A: 6th grade, maybe 5th — summer reading. Could be used to introduce symbolism and motifs because it is more straightforward.
+
+Q: How did the dual narrative format contribute to your reading experience? How might it be received by children?
+A: The dual narrative perspective was found to be redundant by some. Another student said it offered multiple perspectives. This could be harder for children to understand. Elizabeth had a lot of responsibilities and acknowledged it. Topics around citizenship were appreciated — not biased in any way, but shows people's perspectives.</div>
+        </div>
+      </div>
+
+      <!-- Merci Suárez Changes Gears -->
+      <div class="entry-card">
+        <div class="entry-card-header">
+          <div class="input-display"  >Merci Suárez Changes Gears</div>
+        </div>
+        <div class="entry-card-meta">
+          <div class="input-display"  style="width:200px">Meg Medina</div>
+          <div class="input-display"  style="width:160px">April 2</div>
+          <div class="input-display"  style="width:280px">Discussion Leaders: Mia Becher & Avery Gould</div>
+        </div>
+        <div class="entry-card-body">
+          <div class="textarea-display"  style="min-height:300px;">Discussion Questions:
+
+Q: How does Merci's Cuban heritage influence her worldview? In what ways is her culture both grounding and complicating?
+
+Q: Discuss Edna Santos — how does she embody or challenge traditional "mean girl" tropes?
+A: One student pitied/sympathized with her; said her determination was admirable and her evilness stemmed from insecurity. Another student sympathized when her eyebrows were bare — must be hard for middle school.
+
+Q: Merci experiences embarrassment, jealousy, and guilt. Why is it important for middle-grade literature to explore these more uncomfortable themes?
+A: How Merci grew through them — proud of Lolo.
+
+Q: How might this book function differently for child readers versus adult readers?
+A: Students may find this text more relatable and comprehensible while adult readers may be more accustomed to learning about children from the outside.
+
+Q: If you could rewrite one moment in the book, what would it be and why?
+A: Highlighting the weird social dynamics between boys and girls in middle school was well done. Relationship with the brother was very well done.
+
+Q: Why do you think Meg Medina chose to tell the story from Merci's point of view rather than an adult's perspective?
+
+Q: What is the effect of having readers learn about Lolo's condition gradually, just as Merci does?
+
+Q: Why does Medina place such a strong contrast between Merci's home life and her school environment?
+
+Q: Why is the title Merci Suárez Changes Gears such an effective title? In what ways does it work both literally and symbolically?</div>
+        </div>
+      </div>
+
+      <!-- Ghost Boys -->
+      <div class="entry-card">
+        <div class="entry-card-header">
+          <div class="input-display"  >Ghost Boys</div>
+        </div>
+        <div class="entry-card-meta">
+          <div class="input-display"  style="width:200px">Jewell Parker Rhodes</div>
+          <div class="input-display"  style="width:160px">April 9</div>
+          <div class="input-display"  style="width:220px">Discussion Leader: Jennifer Andrews</div>
+        </div>
+        <div class="entry-card-body">
+          <div class="textarea-display"  style="min-height:360px;">Discussion Questions:
+
+Q: How well does the writing style capture and present complex, sensitive topics such as racial prejudice and police brutality for readers aged 10–15?
+A: The Florida Fraternal Order of Police labeled the book "propaganda that pushes an inaccurate and absurd stereotype of police officers." However, it's not a stereotype — it's one police officer in this story. Written as realistic fiction, the events are undeniably tied to real events (Emmett Till, Tamir Rice). For readers 10–15, this is a critical time for impression formation and critical thinking. The writing conveys deep topics in an accessible manner, and the supernatural component maintains interest and appeal. Scaffolding is needed for younger readers.
+
+Q: How is this novel different from or similar to the others we have read?
+A: In terms of social issues, other books mostly look at interpersonal issues, while this is focused on more violent topics with weapons and murder. The toy gun represents naivety. Complexity: the other kids also thought it was real, but the 911 operator was aware of the possibility of the gun being a toy and failed to report that to the officers. Other books look at family structures, but this book is probably the most relevant because these things happen every day. Including Sarah — someone naturally bound to be on her father's side — learning and empathizing and trying to help Jerome.
+
+Q: The book features many ghost boys, not just Jerome and Emmett. What are your thoughts regarding the author's choice to write about a world where such ghost boys exist?
+A: This symbolizes the historical and current reality of the world. The idea that each ghost has one person who sees them (p. 108).
+
+Q: Share your thoughts on Jerome, Sarah, and Officer Moore:
+- Sarah: Wanted to look at the video footage, learning more, trying to talk to her father. Modeling bravery, social justice, critical thinking. Teaches kids that they don't have to believe exactly what their parents believe.
+- Officer Moore: He knows he did something wrong — gaslighting himself throughout the novel until the end. "The young man I killed?" At the end, he realizes he was in the wrong but remains hesitant to call Jerome a boy.</div>
+        </div>
+      </div>
+
+      <!-- Refugee -->
+      <div class="entry-card">
+        <div class="entry-card-header">
+          <div class="input-display"  >Refugee</div>
+        </div>
+        <div class="entry-card-meta">
+          <div class="input-display"  style="width:200px">Alan Gratz</div>
+          <div class="input-display"  style="width:160px">April 16</div>
+          <div class="input-display"  style="width:220px">Discussion Leader: Sophia Pechin</div>
+        </div>
+        <div class="entry-card-body">
+          <div class="textarea-display"  style="min-height:340px;">Discussion Questions:
+
+Q: The author uses the viewpoints of three different children to convey his themes. What effect does this have on the novel?
+A: Which story stood out most?
+- Mahamoud: connections between the other timelines. Not something that happened 200 years ago — still possibly relevant today.
+- Josef: the plot point where the mom had to choose between her children.
+
+Q: The book portrays many moments that display the harsh realities of refugees. What moments stood out to you and why?
+A: They all had a sacrifice — it wasn't just the parents; the kids had to make sacrifices too. A better way to introduce these topics to children.
+
+Q: In the context of the world today, how can this book be a mirror, window, and sliding glass door?
+A: More of a window into the past. Possibly not a mirror for students today.
+
+Q: Many chapters stop right after something significant happens. What purpose do the cliffhangers serve?
+A: Keep the reader engaged and excited. Replicates reality.
+
+Q: Mahamoud's family is escaping toward Germany while Josef's family wants to leave Germany. Isabel's family wants to leave Cuba for the United States. How does this form a "circle" across countries?
+A: Comes in relation to time. Depends on individual identity.
+
+Q: How are the three characters' stories similar even though they happened at different locations and time periods?
+A: A lot of the time parents have to make quick, rash decisions and then fall apart — kids must take over.
+
+Q: The ending reveals a hidden truth connecting the three stories. What does this suggest about generational responsibility?
+A: Sometimes it's necessary to become a refugee for a better life — we must move toward making the process easier and have empathy for others.</div>
+        </div>
+      </div>
+
+    </div>
+    <button class="add-btn" onclick="addEntry('lit-list', 'Novel Title', 'discussion notes')">+ Add Novel</button>
+  </section>
+
+  <!-- 4. BLOG REVIEWS -->
+  <section id="blog-reviews">
+    <div class="section-header">
+      <div class="section-number">04</div>
+      <div class="section-title-block">
+        <span class="section-accent accent-rust">Dated Notes</span>
+        <h2>Blog Reviews</h2>
+      </div>
+    </div>
+    <div class="entries-list" id="blog-list">
+
+      <!-- Review #1 - Luke -->
+      <div class="entry-card">
+        <div class="entry-card-header">
+          <div class="input-display"  >Social Justice Books – Department of Defense Education Activity Book Bans</div>
+        </div>
+        <div class="entry-card-meta">
+          <div class="input-display"  style="width:160px">Luke Frain</div>
+          <div class="input-display"  style="width:160px">Blog Review #1</div>
+        </div>
+        <div class="entry-card-body">
+          <div class="textarea-display"  style="min-height:220px;">A former intern for Teaching for Change describes her childhood near the Naval Academy, recalling Coast Guard cadets being stunned by the lack of restrictions on reading outside the academy. She then discusses how the DODEA recently pulled almost 600 books off their shelves. The rest of the article gives reasons why this book banning is harmful — particularly for diversity — and recommends seven of the recently banned books.
+
+Positive: Appreciated all the links embedded into the text. For each book recommended, there was a link to purchase it, and for the mention of the DODEA's action, there was a link to donate to the American Civil Liberties Union.
+
+Negative: The article is listed as one of the more recent for the blog but was written in 2025. This is a better level of activity than the blog used for the blitz, but more frequent posts would be ideal.</div>
+        </div>
+      </div>
+
+      <!-- Sophia -->
+      <div class="entry-card">
+        <div class="entry-card-header">
+          <div class="input-display"  >Children's Book A Day Almanac</div>
+        </div>
+        <div class="entry-card-meta">
+          <div class="input-display"  style="width:160px">Sophia Pechin</div>
+          <div class="input-display"  style="width:160px">Blog Review #1</div>
+        </div>
+        <div class="entry-card-body">
+          <div class="textarea-display"  style="min-height:120px;">Each day features a blog post tied to national holidays. One recent post was about Snowflake Bentley, a Caldecott award winner. Reviews range across a variety of books, including classics like Pinocchio.</div>
+        </div>
+      </div>
+
+      <!-- Mia -->
+      <div class="entry-card">
+        <div class="entry-card-header">
+          <div class="input-display"  >School Library Journal — Publisher Spotlight</div>
+        </div>
+        <div class="entry-card-meta">
+          <div class="input-display"  style="width:160px">Mia Becher</div>
+          <div class="input-display"  style="width:160px">Blog Review #1</div>
+        </div>
+        <div class="entry-card-body">
+          <div class="textarea-display"  style="min-height:120px;">Preview about upcoming picture books, compared to other books the blogger has read to her children. One book is about a girl visiting her grandmother in Oman. Another is about a girl in a wheelchair who wants to make a huge difference in life, just like her wheelchair has done for her.</div>
+        </div>
+      </div>
+
+      <!-- Jennifer -->
+      <div class="entry-card">
+        <div class="entry-card-header">
+          <div class="input-display"  >Wander, Ponder, Write — What do you do when your dog grows old?</div>
+        </div>
+        <div class="entry-card-meta">
+          <div class="input-display"  style="width:160px">Jennifer Andrews</div>
+          <div class="input-display"  style="width:160px">Blog Review #1</div>
+        </div>
+        <div class="entry-card-body">
+          <div class="textarea-display"  style="min-height:120px;">The blog is about a collection of poems. The blogger includes a couple of paragraphs about why she likes the book, followed by links to other relevant blogs. It includes cute activities, including one that asks you to describe your pet.</div>
+        </div>
+      </div>
+
+    </div>
+    <button class="add-btn" onclick="addEntry('blog-list', 'Blog Review Title', 'review notes')">+ Add Blog Review</button>
+  </section>
+
+  <!-- 5. LEARNING EXPERIENCES -->
+  <section id="learning-experiences">
+    <div class="section-header">
+      <div class="section-number">05</div>
+      <div class="section-title-block">
+        <span class="section-accent accent-gold">Original Work</span>
+        <h2>Learning Experiences</h2>
+      </div>
+    </div>
+    <div class="entries-list" id="le-list">
+
+      <!-- LE A -->
+      <div class="entry-card">
+        <div class="entry-card-header">
+          <div class="input-display"  >Learning Experience A — Watercress & Africa Dream</div>
+        </div>
+        <div class="entry-card-meta">
+          <div class="input-display"  style="width:200px">Picture Book Essays</div>
+          <div class="input-display"  style="width:220px">Watercress / Africa Dream</div>
+        </div>
+        <div class="entry-card-body">
+          <div class="textarea-display"  style="min-height:420px;">Watercress
+
+Like Jason Chin writes in his note, "I am impressed by how Andrea was able to fold so many layers of memory, culture, and emotion into such a short text." There really aren't many words in the manuscript, yet the story feels complete. As a writer, this challenges me to think about where I am using space ineffectively, as well as how I can resolve this. After all, most picture books must be only thirty-two pages or so.
+
+One way that I notice Andrea writes succinctly is by allowing the pictures to tell part of the story. She does this sometimes by leaving a whole page blank for an illustration, like the second page that shows the family driving or the thirteenth page that shows them loading the watercress back into the car. What is more impressive to me, though, are the pages that have a few words telling some of the story and a picture telling the rest. For instance, on the eighteenth page, Andrea doesn't explicitly write that the girl wore hand-me-down clothes growing up or that her parents collected trash-heap furniture. She only writes that these things are free and, by association, bad. However, the pictures provide context, so we know why she feels this way. Another example of a picture telling part of the story is on the twenty-second page. Andrea doesn't write that the girl's uncle died, but she doesn't have to. By writing "it was not enough" alongside a picture of his figure missing from the table, we can infer that the famine killed him. To me, these two scenes are the most resonant of the book.
+
+Of course, this style of writing wouldn't be effective without a skilled illustrator, a qualification that is certainly true of Jason Chin. He is also a skilled speaker, and I enjoyed listening to his Caldecott acceptance speech. It was very relatable, even when he talks about a Chinese culture that I know so little about, and it was fun listening to him remember painting castles and dragons and all that was his creative childhood. Perhaps my favorite line from the speech is, "To breathe life into your art, put your whole self into it, and become one with what you are painting." Coming from many other people, I would probably laugh at this saying, but I can really feel the artistic commitment in Jason's paintings. From the landscapes to facial expressions, every brush stroke is accounted for with the same soft quality. There is unity in the details of every picture, which compliments the simplicity of the text. It's ridiculous to think that Jason was reluctant to collaborate on this project at first. I'm glad that Andrea encouraged him to share his memory and tell his story. As she writes in her note, "They are essential."
+
+Finally, it was fascinating to hear Jason talk about his struggles to understand the theme of hope in Watercress. He conveyed it so well in the pictures, and it's a reminder that one doesn't have to always possess all of the answers to craft a compelling piece of art. He let Andrea's text guide him, and in that process, he revealed a theme he didn't need to know.
+
+---
+
+Africa Dream
+
+This book seems to reflect our thoughts on representation in literature earlier this semester. I remember us discussing how we don't necessarily need to tell stories with people of color as superheroes; we simply need to paint them in a positive light in everyday situations, and readers will know that they can do anything a white person can. We just need to plant a seed of fairness, and our imagination can do the rest.
+
+On this note, I think that this book's greatest strength is its ability to paint African life in a positive light. When I read this book, I can't help but want to visit, to acquaint myself with the people that call this place home. This positivity comes partly from the manuscript — the girl dreams of going to Africa, a place where she is welcomed, a place that she understands. Here she can sing and dance freely until she grows tired, at which point she knows she can lean back into the comfort of her mama's arms. This positivity also comes from the illustrations. The pictures are playful, filled with smiles and warm embraces. They also have a nostalgic quality that comes from the black and white charcoal. Regardless, the words and pictures paint Africa as a place that is worthy, that is desirable.
+
+Another strength of this book is placing objects of cultural significance in the spotlight, instead of defaulting to objects of Americans. In the book, the girl doesn't eat apples — she eats mangoes. She doesn't ride in a car — she rides on a donkey. Of course, it is easy for such cultural references to turn to stereotypes, but I think it's more important for the book not to be whitewashed. These people have their own culture that is worthy of being represented.
+
+In thinking about why this book deserves the Coretta Scott King Award for illustration specifically — an award that goes to artists who best reflect "the African American experience" — I think that Carole Byard does an excellent job of displaying the struggles and rewards of African American identity, of taking pride in a homeland that is yours but that you might have never been to. For an African, this book might be nostalgic. For an African American, this book might mean a bit more. It is, forgive me, like a window.</div>
+        </div>
+      </div>
+
+      <!-- LE C -->
+      <div class="entry-card">
+        <div class="entry-card-header">
+          <div class="input-display"  >Learning Experience C — Elmore Discussion Guide</div>
+        </div>
+        <div class="entry-card-meta">
+          <div class="input-display"  style="width:200px">2nd Grade</div>
+          <div class="input-display"  style="width:220px">Elmore</div>
+        </div>
+        <div class="entry-card-body">
+          <div class="textarea-display"  style="min-height:340px;">First Discussion Topic (after 1st reading):
+What does Elmore teach us about making friends?
+
+Vignette #1 (p. 5) — Why does Elmore want to make friends?
+Because although he is a solitary porcupine, Elmore often feels lonely.
+
+Vignette #2 (p. 10) — Why is Elmore rejected at first?
+Because the other animals think he is too prickly — it's hard to be around him because then you get needled, nettled, and prickled.
+
+Vignette #3 (p. 17) — What does his uncle say about Elmore's quill troubles?
+That Elmore's quills make him who he is, that they are handsome and he should treasure them.
+
+Vignette #4 (p. 22–24) — How does Elmore use his uncle's advice to make friends and become less lonely? What does this teach us about the best friendships?
+Elmore turns his quills into pens which he hands out to the other animals for free. The animals love their pens, sending him thank you notes and finally accepting him. This teaches us that the best friendships come from embracing who we are and sharing that with others. It is easier for others to love us when we love ourselves.
+
+---
+
+Second Discussion Topic (after 2nd reading):
+Why are Elmore's quill pens the perfect gift?
+
+Elmore's quill pens are meaningful because they foster connection between the animals. Just like Elmore desires a friend to connect with, the other animals also want to be connected. Elmore's quill pens are also meaningful because they are unique.
+
+I would ask this question as a follow-up because it shows how the things we want are often the things others want too. It also shows how something that is common for one person can be a really special gift to someone else. Elmore has hundreds, if not thousands of quills, yet the other animals are delighted to receive them.</div>
+        </div>
+      </div>
+
+      <!-- LE D -->
+      <div class="entry-card">
+        <div class="entry-card-header">
+          <div class="input-display"  >Learning Experience D — Banned Book Poem</div>
+        </div>
+        <div class="entry-card-meta">
+          <div class="input-display"  style="width:200px">Poem</div>
+          <div class="input-display"  style="width:220px">Book Banning / Free Expression</div>
+        </div>
+        <div class="entry-card-body">
+          <div class="textarea-display"  style="min-height:500px;">The school banned a book today, we're not allowed to read it.
+I never wanted to read it before, but now I simply need it!
+The school banned the book because a senator was upset.
+I'm not sure what upset them, but it's a book I've got to get.
+
+I searched the school library on every shelf and nook,
+I searched high and low but couldn't find the book.
+Where do banned books go? Is there an "Island of the banned?"
+Are they shipped off far away? To some forbidden land?
+
+The parents are picketing, the politicians are mad.
+I don't know what is in that book, but it must be pretty bad!
+The book has caused a stir in town, of that there is no doubt.
+I've asked, but no one seems to know what the book's about!
+
+We talked about the book today while riding on the bus.
+Finally, we figured out what was causing all the fuss.
+The book is about a duck, who happens to be gay.
+Some people fear if you read the book then you will "turn that way!"
+
+A waterfowl in a children's book is causing quite a ruckus,
+No other book has ever caused the stir that little duck is.
+I didn't know ducks were dangerous, but I've got to take a look!
+I've got to know what that duck is doing inside that forbidden book!
+
+Gay, Gay, Gay, it's a word you cannot say!
+If you say that word, they will take your book away!
+So what! Who cares if the duck is married to a drake.
+Why should anyone care what happens in the privacy of their own lake!
+
+The man on the TV called the book a "liberal plot"!
+The librarian on the TV said that "It is not!"
+The preacher in the pulpit said "if you read it, you'll be damned!"
+But I once chewed gum in church, so I think I already am.
+
+On the radio they are shouting about the author and his plan!
+"Protect our kids!" They yell as they boycott and they ban.
+"They should throw the book at him, lock him up, throw away the key!"
+If they are going to throw the book, I wish they would throw that book at me!
+
+I really want to read it, but I don't know where to look?
+All the schools and libraries have banned that "awful" book!
+My parents took me to the bookstore, and there on display
+Was the banned book about the duck who happened to be gay.
+
+My parents read through it, and said that it was fine.
+Now at last I have the book, and it's mine all mine!
+I rushed home and read it and the duck has two fathers.
+What? that's it? That's all? What was all the bother?
+
+I liked the book a lot, but still don't understand,
+Why anyone thought a book about a duck, should be banned.
+
+Oh… and…
+If you are thinking I turned gay, then you are out of luck.
+Because after I read the book, I turned into a duck.</div>
+        </div>
+      </div>
+
+      <!-- LE E -->
+      <div class="entry-card">
+        <div class="entry-card-header">
+          <div class="input-display">Learning Experience E — Book Trailer</div>
+        </div>
+        <div class="entry-card-meta">
+          <div class="input-display" style="width:200px">Original Trailer</div>
+          <div class="input-display" style="width:220px">Expository Text</div>
+        </div>
+        <div class="entry-card-body" style="padding:20px;">
+          <a href="https://drive.google.com/file/d/1xksisdMtzJeRgx0Zpg8sCjYyOT4cPNDJ/view?usp=drivesdk" target="_blank" style="display:inline-flex; align-items:center; gap:10px; padding:12px 20px; background:var(--cream); border:1px solid var(--border); border-radius:8px; text-decoration:none; color:var(--rust); font-size:14px; font-weight:500;">
+            📄 Click to open Learning Experience E (Google Drive)
+          </a>
+        </div>
+      </div>
+
+      <!-- LE F -->
+      <div class="entry-card">
+        <div class="entry-card-header">
+          <div class="input-display"  >Learning Experience F — Original Picture Book (Hand-Drawn)</div>
+        </div>
+        <div class="entry-card-meta">
+          <div class="input-display"  style="width:200px">Original Picture Book</div>
+          <div class="input-display"  style="width:220px">Halloween / Fairy Tale Mashup</div>
+        </div>
+        <div class="entry-card-body" style="padding:20px;">
+          <a href="https://drive.google.com/file/d/1iWeAybSdYflc1piEoYyNMDrKbOVpCDur/view?usp=drivesdk" target="_blank" style="display:inline-flex; align-items:center; gap:10px; padding:12px 20px; background:var(--cream); border:1px solid var(--border); border-radius:8px; text-decoration:none; color:var(--rust); font-size:14px; font-weight:500; transition:all 0.2s;">
+            📄 Click to open picture book (Google Drive)
+          </a>
+        </div>
+      </div>
+
+    </div>
+    <button class="add-btn" onclick="addEntry('le-list', 'LE Title', 'learning experience details')">+ Add Learning Experience</button>
+  </section>
+
+  <!-- 6. READING RECORD -->
+  <section id="reading-record">
+    <div class="section-header">
+      <div class="section-number">06</div>
+      <div class="section-title-block">
+        <span class="section-accent accent-sage">30 Picture Books</span>
+        <h2>Reading Record</h2>
+      </div>
+    </div>
+    <div class="entries-list" id="reading-list">
+
+      <div class="entry-card">
+        <div class="entry-card-header"><div class="entry-card-num" style="font-family: 'Playfair Display', serif; font-size:13px; color:var(--gold); min-width:28px; flex-shrink:0;">1.</div><div class="input-display"  >Thankful</div></div>
+        <div class="entry-card-meta">
+          <div class="input-display"  style="width:180px">Elaine Vickers</div>
+          <div class="input-display"  style="width:200px">Illus: Samantha Cotterill</div>
+          <div class="input-display"  style="width:200px">2021 · Simon & Schuster</div>
+        </div>
+        <div class="entry-card-body"><div class="textarea-display"  style="min-height:200px;">Content (Rating: 2): The content of this book is pretty simple. According to tradition, a girl makes paper chains during the first snowfall of the year and writes things that she is thankful for on each one. She calls these "thankful chains." The book follows her as she thinks of what to write on these chains. This structure leaves the book relatively plotless – it's just a list. However, the list is so sweet and well-crafted that I'm not downgrading this section past a 2.
+
+Writing Style (Rating: 1): The writing style is on the simple side, but like the content, it's so well-crafted that I'm giving it a 1. The way the girl categorizes the things she is thankful for seems natural and interesting, and it makes the list come to life. There is also something so endearing to the text's simplicity, like for the poem her parents whisper to her: "Good night, dream sweet things, let them carry you on their wings, and whatever tomorrow brings, I love you."
+
+Illustrations (Rating: 3): I want to clarify that I do like the illustrations for this book. In particular, I like how the characters all look like cut-outs against the backdrops. This is something I haven't seen done before, or if I have, it wasn't as memorable. I also like how the cover is just a bunch of thankful chains. Again, it's simple but super colorful, and it really grabbed my attention. All this said, I've seen much more detailed illustrations.
+
+Overall (Rating: 2): I like this book! It's so well-crafted, and I think it's a great reminder of all the things we can be thankful for. I also appreciate how it's not in the context of Thanksgiving. After all, we can be grateful all year long!</div></div>
+      </div>
+
+      <div class="entry-card">
+        <div class="entry-card-header"><div class="entry-card-num" style="font-family: 'Playfair Display', serif; font-size:13px; color:var(--gold); min-width:28px; flex-shrink:0;">2.</div><div class="input-display"  >Door</div></div>
+        <div class="entry-card-meta">
+          <div class="input-display"  style="width:180px">JiHyeon Lee</div>
+          <div class="input-display"  style="width:200px">Illus: JiHyeon Lee</div>
+          <div class="input-display"  style="width:200px">2017 · Iyagikot</div>
+        </div>
+        <div class="entry-card-body"><div class="textarea-display"  style="min-height:200px;">Content (Rating: 2): This wordless picture book follows a boy as he leaves a bitter, black and white world after unlocking a door. Through this door, he discovers a new world, full of color and life. Here, he makes a friend who leads him around this place, which seems to have many doors through which characters like himself enter. Ultimately, these characters go to a wedding and celebrate together before the boy leaves.
+
+Writing Style (Rating: 3): It's hard to rate the writing style since there aren't any words! There are only squiggles in speech bubbles next to the characters, and readers have to guess what they are saying based on the illustrations. I do think this is an interesting choice as opposed to leaving no markings whatsoever.
+
+Illustrations (Rating: 1): The artistic style isn't the most impressive. All the pictures look like colored pencil sketches. Still, the way the pictures tell the story is extremely impressive, which is why I'm giving it a 1. In particular, the contrasting emotions between the world the boy came from and the world through the door is very interesting. There's also this lovely sense of creativity and adventure that comes across through the pictures.
+
+Overall (Rating: 2): This is a fascinating book, and I'm really glad I came across it. Perhaps the thing I most appreciate about the work is its universality. I see that this book was first published in Korea, then the States, but since it's a wordless picture book, there were no translations required!</div></div>
+      </div>
+
+      <div class="entry-card">
+        <div class="entry-card-header"><div class="entry-card-num" style="font-family: 'Playfair Display', serif; font-size:13px; color:var(--gold); min-width:28px; flex-shrink:0;">3.</div><div class="input-display"  >When You Can Swim</div></div>
+        <div class="entry-card-meta">
+          <div class="input-display"  style="width:180px">Jack Wong</div>
+          <div class="input-display"  style="width:200px">Illus: Jack Wong</div>
+          <div class="input-display"  style="width:200px">2023 · Scholastic</div>
+        </div>
+        <div class="entry-card-body"><div class="textarea-display"  style="min-height:200px;">Content (Rating: 3): I wasn't sold on the content at first, but by the last page, when it came to focus that the speaker was a mother taking her daughter to swimming lessons, I was satisfied. Like Thankful, the premise of this story is quite simple, but I think that adds to the power behind learning to swim. When you learn to swim, you can do so many things that a whole book could be written about it – and was.
+
+Writing Style (Rating: 1): I really like the writing style. It's very poetic. Even the way the words are put on the page feels like poetry, especially in the line: "The whitecaps will pick up but slipping, bending, listening, reaching, rising, floating, daring, conquering, we'll make it over." I will say that the reliance on line breaks instead of punctuation makes it harder to read, though.
+
+Illustrations (Rating: 1): I'm very impressed by the illustrations. The pastel and watercolor combination works so well, and the attention to detail is breathtaking – pun intended. My favorite illustration was when the book turned sideways, showing them swimming downwards for the line: "When you can swim, you'll conquer any fear of tannin-soaked lakes pitch dark from tree bark…."
+
+Overall (Rating: 2): I would give this book a 1 if the plot were a bit more nuanced. The writing style and illustrations are absolutely beautiful! The book is also very meaningful to me since I have vivid memories of learning to swim, as I'm sure many do.</div></div>
+      </div>
+
+      <div class="entry-card">
+        <div class="entry-card-header"><div class="entry-card-num" style="font-family: 'Playfair Display', serif; font-size:13px; color:var(--gold); min-width:28px; flex-shrink:0;">4.</div><div class="input-display"  >Teacup</div></div>
+        <div class="entry-card-meta">
+          <div class="input-display"  style="width:180px">Rebecca Young</div>
+          <div class="input-display"  style="width:200px">Illus: Matt Ottley</div>
+          <div class="input-display"  style="width:200px">2015 · Scholastic Australia</div>
+        </div>
+        <div class="entry-card-body"><div class="textarea-display"  style="min-height:200px;">Content (Rating: 3): I have to say that the content of this book was a bit of a let down. The book is about a boy who leaves home with just his boat, book, bottle, blanket, and teacup full of earth. He is searching for a new home, though it seems that everywhere he goes, the sea reminds me of the home he left behind. Toward the end of the book, the earth from the teacup abruptly turns into a tree and the boy finds land. The meaning of this book is still somewhat of a mystery to me.
+
+Writing Style (Rating: 2): The writing style is very pretty and at times almost made me not care about the plot. Like When You Can Swim, the text is very poetic, not as much with its formatting but with its sound. I can tell Young took much care with her word selection.
+
+Illustrations (Rating: 1+): I don't think a 1 does justice to these illustrations. They are absolutely stunning from cover to cover and the main reason I chose to read this book in the first place. In particular, I'm in love with Ottley's use of color. The shading is marvelous.
+
+Overall (Rating: 2): The illustrations are doing most of the heavy lifting here. Still, pictures are so important in picture books that I think a 2 is justified. Would I read this to my kindergarten class? No, but I'd definitely show it to them if I was an art teacher!</div></div>
+      </div>
+
+      <div class="entry-card">
+        <div class="entry-card-header"><div class="entry-card-num" style="font-family: 'Playfair Display', serif; font-size:13px; color:var(--gold); min-width:28px; flex-shrink:0;">5.</div><div class="input-display"  >Carter Reads the Newspaper</div></div>
+        <div class="entry-card-meta">
+          <div class="input-display"  style="width:180px">Deborah Hopkinson</div>
+          <div class="input-display"  style="width:200px">Illus: Don Tate</div>
+          <div class="input-display"  style="width:200px">2019 · Peachtree Publishers</div>
+        </div>
+        <div class="entry-card-body"><div class="textarea-display"  style="min-height:200px;">Content (Rating: 1): It's hard to rate the content of nonfiction like this. After all, Hopkinson didn't come up with any of it. However, I'm giving it a 1 based on the importance of the story, especially in the time it was written. Nowadays, Black History Month feels like such a ritual that it's easy to forget the people that made it happen and how much resistance there was to it at first. The bit of history about Woodson helped make this holiday less of a box-check for me.
+
+Writing Style (Rating: 2): Again, it's so difficult to rate the writing style for nonfiction. The premise of the story and all its facts are clear, so I'm giving it a 2. It is a bit unoriginal, though. I'm also not a fan of the last page. Too cliché.
+
+Illustrations (Rating: 2): I like the illustrations. I think the colorful sketches are appropriate and add a much needed personal quality to the book. I also appreciate how the pictures interact with the text and sharpen its historical lens. That said, these illustrations don't hold a candle to those from When You Can Swim and Teacup.
+
+Overall (Rating: 2): I think this is an important book to keep in the library for Black History Month, and I'm glad I came across it. The book is also a great example of how to incorporate a bibliography. It's also a good example of how to use endpapers.</div></div>
+      </div>
+
+      <div class="entry-card">
+        <div class="entry-card-header"><div class="entry-card-num" style="font-family: 'Playfair Display', serif; font-size:13px; color:var(--gold); min-width:28px; flex-shrink:0;">6.</div><div class="input-display"  >In the Garden</div></div>
+        <div class="entry-card-meta">
+          <div class="input-display"  style="width:180px">Emma Giuliani</div>
+          <div class="input-display"  style="width:200px">Illus: Emma Giuliani</div>
+          <div class="input-display"  style="width:240px">2018 · Princeton Architectural Press</div>
+        </div>
+        <div class="entry-card-body"><div class="textarea-display"  style="min-height:200px;">Content (Rating: 1): This book is so neat. It's essentially a gardening guide for children, and it informs the reader about everything plant-related: seasons, watering, seeds, flowers, trees, greenhouses, birds, harvesting, raking, compost… You name it! My personal favorite was all the information about plants like nasturtiums that keep all the pests away. Can't have the aphids getting to all my plants.
+
+Writing Style (Rating: 2): Like the last books, it's hard to give this style a 1, despite it being very clear. The informational tone is just too dry for me, and I feel it could be a bit more original. It has a slightly better flow than Carter Reads the Newspaper, though.
+
+Illustrations (Rating: 1): The illustrations aren't actually that artistic. However, they are so cool! I love how many of them pop up so that you can see what's going on "beneath the surface." For example, you can see what a seed looks like inside. Same for the flowers. You can even see the inside of the birdhouse! Many of these pop-ups also include information about the pictures. It's all so informative and lovely.
+
+Overall (Rating: 1): This is my first overall rating of 1 because for what it is, this book checks all the boxes. I love how interactive it is, not to mention informative. I will say that this was only possible because of how big the book is. I would say it's probably 12" x 18".</div></div>
+      </div>
+
+      <div class="entry-card">
+        <div class="entry-card-header"><div class="entry-card-num" style="font-family: 'Playfair Display', serif; font-size:13px; color:var(--gold); min-width:28px; flex-shrink:0;">7.</div><div class="input-display"  >My Grandfather's War</div></div>
+        <div class="entry-card-meta">
+          <div class="input-display"  style="width:180px">Glen Harper</div>
+          <div class="input-display"  style="width:200px">Illus: Jenny Cooper</div>
+          <div class="input-display"  style="width:200px">2018 · Exisle</div>
+        </div>
+        <div class="entry-card-body"><div class="textarea-display"  style="min-height:200px;">Content (Rating: 3): As someone whose grandfather fought in Vietnam, I wasn't all that impressed with the content of this book. I understand how it could be a starting point to learning about the war. I also understand how it's meant to be for kids, but there's just too much history missing. The gravity of the grandpa's PTSD is not quite there.
+
+Writing Style (Rating: 3): I actually think this writing style is decent. There's a clear voice – eight-year-old Sarah whose grandfather served in Vietnam. I can hear the sincerity in her voice when she asks him about the war, and I can hear her love when she feels heartbroken for her grandpa's friends who passed away. That said, this all reads a bit too stereotypically for me. There once was a man who was sad. His little girl didn't know why he was sad. One day, she asked him. Then, she was sad too. This sort of thing.
+
+Illustrations (Rating: 2): I like the illustrations. They are detailed and make up some for the missing history in the text – which I should add appears as a summary on the very last page. I particularly like the spreads that show the horrors of the war or the protests when the soldiers return. These pictures were impactful. Also, the endpapers are so lovely.
+
+Overall (Rating: 3): I think this book had the potential to be a strong 2 or even a 1, but the missing history in the text itself and cliché circumstances that lead to Sarah's discovery kept it from achieving that.</div></div>
+      </div>
+
+      <div class="entry-card">
+        <div class="entry-card-header"><div class="entry-card-num" style="font-family: 'Playfair Display', serif; font-size:13px; color:var(--gold); min-width:28px; flex-shrink:0;">8.</div><div class="input-display"  >Farmhouse</div></div>
+        <div class="entry-card-meta">
+          <div class="input-display"  style="width:180px">Sophie Blackall</div>
+          <div class="input-display"  style="width:200px">Illus: Sophie Blackall</div>
+          <div class="input-display"  style="width:200px">2022 · Hachette Book Group</div>
+        </div>
+        <div class="entry-card-body"><div class="textarea-display"  style="min-height:200px;">Content (Rating: 1): This book is about a farmhouse and all that it means to the family who grew up in it. It's about cherishing the simple things and taking care of them because they won't last forever. It's about laughing and playing and working hard. It's about telling your story because it's very special and because it's yours.
+
+Writing Style (Rating: 1): I'm a big fan of the writing style. The whole text is a single sentence, but it doesn't feel long-winded at all. I love how it reads like poetry. The internal rhyme really adds a nice touch. So does the nostalgic use of past tense.
+
+Illustrations (Rating: 1+): All I can say is wow! These illustrations are so beautiful. There are so many different mediums used – Chinese ink, watercolor, gouache, and colored pencil – but it doesn't feel eclectic. It's also just so incredibly colorful and detailed. These details really add to the nostalgic emotion of the text. I wonder how long it took Blackall to complete these pictures. It looks like each spread would take at least a few days.
+
+Overall (Rating: 1+): This is my first 1 rating for a fiction book, although we find out in the author's note that this story is based on a real house. This book is just a true work of art, and the theme of gratitude really struck me. My mom really loves farmhouses and has tried to decorate ours as one. I have just recommended this book to her. I might buy a copy myself! *I ended up buying the book!</div></div>
+      </div>
+
+      <div class="entry-card">
+        <div class="entry-card-header"><div class="entry-card-num" style="font-family: 'Playfair Display', serif; font-size:13px; color:var(--gold); min-width:28px; flex-shrink:0;">9.</div><div class="input-display"  >A Mermaid Girl</div></div>
+        <div class="entry-card-meta">
+          <div class="input-display"  style="width:180px">Sana Rafi</div>
+          <div class="input-display"  style="width:200px">Illus: Olivia Aserr</div>
+          <div class="input-display"  style="width:200px">2022 · Penguin Random House</div>
+        </div>
+        <div class="entry-card-body"><div class="textarea-display"  style="min-height:200px;">Content (Rating: 3): This book is about a Muslim girl named Heba who goes to the pool in a burkini her mother buys her. At the pool, her swim suit doesn't fit in, and others question whether it's a real swim suit, but she shows them that she can play all their games and do everything in it that they can do. She even pretends she is a mermaid. I think this content is important – I didn't know what a burkini was before this – but it's told with little nuance. It's very surface level.
+
+Writing Style (Rating: 2): The writing style is really simple. Lots of short sentences, and the description isn't really unique. Still, it says at the beginning of this book that it is meant for children aged 5-7, so I think the style is appropriate. It's easy to understand.
+
+Illustrations (Rating: 2): The illustrations are nice. They are a bit cartoonish, but they have a playful quality that I quite like. My favorite illustrations are the ones showing how Heba envisions her burkini as a mermaid costume. Still, these illustrations don't compare to those of Sophie Blackall or Matt Ottley.
+
+Overall (Rating: 3): I think this book has a lot of potential. It wrestles with an important topic and raises awareness and empathy for people with dress accommodations, specifically for their religion. We should all be able to wear clothes that align with our beliefs without being judged, especially if those clothes serve their purpose.</div></div>
+      </div>
+
+      <div class="entry-card">
+        <div class="entry-card-header"><div class="entry-card-num" style="font-family: 'Playfair Display', serif; font-size:13px; color:var(--gold); min-width:28px; flex-shrink:0;">10.</div><div class="input-display"  >Big</div></div>
+        <div class="entry-card-meta">
+          <div class="input-display"  style="width:180px">Vashti Harrison</div>
+          <div class="input-display"  style="width:200px">Illus: Vashti Harrison</div>
+          <div class="input-display"  style="width:200px">2023 · Hachette Book Group</div>
+        </div>
+        <div class="entry-card-body"><div class="textarea-display"  style="min-height:200px;">*I know you were talking about bringing a publisher to speak to the class. Does Vanderbilt have any connections with the Hachette branch in Nashville?
+
+Content (Rating: 1): This book is about a girl who, in the words of the author, "grew and grew and grew. And it was good… until it wasn't." It is about this girl coming of age, learning how to handle the emotions of being bullied for her size, and learning how to grow the strength to confidently take up her space. After all, it is hers. It's a story that is very important, and I think it isn't told frequently enough when it comes to children.
+
+Writing Style (Rating: 2+): I like the writing style. It is a bit sparse, with pictures doing a lot of the storytelling. Still, it's very clear, and there's beauty in its simplicity.
+
+Illustrations (Rating: 1): The illustrations were done in Procreate and chalk pastel, and I really like them. The pastel gives it a nice artistic feel. I also love how creative the illustrations are, and this isn't just inside the book. The jacket art is creative in how it shows the strength required to carry the label "big." When you take the jacket off, the cover is also brilliantly done with all the calligraphy and words of affirmation. I also always love when a book opens up to a full spread, and this book does that quite well.
+
+Overall (Rating: 1): There is a lot to like about this book. The writing style is a bit simple, but the message is clear and powerful, and the illustrations are masterfully done. When I think of our discussions on representing every kid in our future classrooms, this is a book we should put on our shelves.</div></div>
+      </div>
+
+      <div class="entry-card">
+        <div class="entry-card-header"><div class="entry-card-num" style="font-family: 'Playfair Display', serif; font-size:13px; color:var(--gold); min-width:28px; flex-shrink:0;">11.</div><div class="input-display"  >P is for Peach: A Georgia Alphabet</div></div>
+        <div class="entry-card-meta">
+          <div class="input-display"  style="width:180px">Carol Crane</div>
+          <div class="input-display"  style="width:200px">Illus: Mark Braught</div>
+          <div class="input-display"  style="width:200px">2002 · Sleeping Bear Press</div>
+        </div>
+        <div class="entry-card-body"><div class="textarea-display"  style="min-height:200px;">*I know this is a bit earlier, but as a Georgian I had to include this!
+
+Content (Rating: 1): I might be a bit partial in giving this content a 1. After all, I'm from Georgia! Still, I think it's so neat the way this book explores our great state and all its history. Reading this book brought back so many memories, like selling Vidalia Onions to raise money for 4-H and going to the Fern Bank Museum for my fourth grade field trip. And of course, the pictures of peaches made my mouth water, although I must admit that South Carolina does have better peaches than us.
+
+Writing Style (Rating: 1): I think the writing serves its purpose. It's clear and informative. I also love the addition of rhyming poetry to introduce each letter. It provides a nice balance.
+
+Illustrations (Rating: 1): I really like these illustrations. The pastels work very nicely. I also love that the artist, Mark Braught, lives in Georgia. I think it would be even cooler though if they got someone who went to SCAD.
+
+Overall (Rating: 1): I am really pleased with this book, and I think it would be a great supplement to the Georgia History curriculum. Actually, if I was teaching Georgia History, I might ask my students to create their own Georgia alphabet book. I would love to see what different ideas they might have for some of the letters.</div></div>
+      </div>
+
+      <div class="entry-card">
+        <div class="entry-card-header"><div class="entry-card-num" style="font-family: 'Playfair Display', serif; font-size:13px; color:var(--gold); min-width:28px; flex-shrink:0;">12.</div><div class="input-display"  >Summer is Here</div></div>
+        <div class="entry-card-meta">
+          <div class="input-display"  style="width:180px">Renée Watson</div>
+          <div class="input-display"  style="width:200px">Illus: Bea Jackson</div>
+          <div class="input-display"  style="width:200px">2024 · Bloomsbury</div>
+        </div>
+        <div class="entry-card-body"><div class="textarea-display"  style="min-height:200px;">Content (Rating: 1-): This book's title says it all. It's about when summer comes and all the joy that it brings. It's about the laughter shared under rays of sunshine, whether at the pool or the park, with family or friends. It's a very simple plot, but it's also nostalgic. Summertime holds such happy memories for many of us.
+
+Writing Style (Rating: 1): I really like the writing style, particularly the use of figurative language. The personification of summer bringing all its festivities to the main character is sweet. There are also several nice similes. My favorite is when Watson writes, "Her stars shimmer like spilled glitter across the sky. I whisper a wish and say goodbye to the day."
+
+Illustrations (Rating: 2): I actually like the illustrations a lot. They really add to the nostalgic quality of the book, whether from pictures of bubble-blowing or jumping rope or eating an ice cream cone with sprinkles on top. And yet, I don't quite love the fact that the book is illustrated digitally. I must say that it's impressive how artists like Bea Jackson have pivoted to using new technology in their craft, but it feels a bit impersonal. I loved seeing strokes of pastel or paint in the other books.
+
+Overall (Rating: 2+): It's a book that is great to read for pleasure. Besides being nostalgic though, it doesn't have a lot of emotional significance. Nothing like Farmhouse or Big, at least. I'm not sure there's much to teach with it, either, especially compared to books like P is for Peach.</div></div>
+      </div>
+
+      <div class="entry-card">
+        <div class="entry-card-header"><div class="entry-card-num" style="font-family: 'Playfair Display', serif; font-size:13px; color:var(--gold); min-width:28px; flex-shrink:0;">13.</div><div class="input-display"  >The Thing About Love</div></div>
+        <div class="entry-card-meta">
+          <div class="input-display"  style="width:180px">Linda Ashman</div>
+          <div class="input-display"  style="width:200px">Illus: Kristina Jones</div>
+          <div class="input-display"  style="width:200px">2025 · Pagination Press</div>
+        </div>
+        <div class="entry-card-body"><div class="textarea-display"  style="min-height:200px;">Content (Rating: 1): This book is so touching. It's about a boy who grows up with a dog. They share so many memories together, like playing catch, eating ice cream, curling together under their favorite blanket. It seems that they are a match forever, but like we all know, the dog ages much faster than the boy does, and soon, visits to the vet and an ultimate goodbye are inevitable. Still, as it says on the back cover, "The thing about love is that it never goes away." The book shows how the boy's love for his dog carries on after his death and until he gets a new dog that he can create new memories with.
+
+Writing Style (Rating: 1): I love the writing style. There are so many good lines. There is also such masterful repetition. The book opens with the line, "The thing about love is it can happen in an instant." It also closes with the line, but by the end of the book, the "instant" has a whole new meaning, both because of our new perception of time and our knowledge that the boy is getting another dog. As quickly as grief struck when the dog died, joy returned when he got a new one, and that is special.
+
+Illustrations (Rating: 1): The illustrations are nice. They border the line between sketches and photographs. Actually, some of them are framed like they were a picture. The thing that makes me rate them so high though is the way that the pictures tell part of the story. At the end of the book, it isn't in the text that the boy gets a new dog. It only says that love can happen in an instant. However, we can infer the boy gets a new dog based on the picture, which makes a nice moment for the reader.
+
+Overall (Rating: 1): I really like this book. It is joyful, and it's a book that every kid with a dog could benefit from. I would definitely include this in my classroom library.</div></div>
+      </div>
+
+      <div class="entry-card">
+        <div class="entry-card-header"><div class="entry-card-num" style="font-family: 'Playfair Display', serif; font-size:13px; color:var(--gold); min-width:28px; flex-shrink:0;">14.</div><div class="input-display"  >Hidden City: Poems of Urban Wildlife</div></div>
+        <div class="entry-card-meta">
+          <div class="input-display"  style="width:180px">Sarah Grace Tuttle</div>
+          <div class="input-display"  style="width:220px">Illus: Amy Schimler-Safford</div>
+          <div class="input-display"  style="width:250px">2018 · Eerdmans Books for Young Readers</div>
+        </div>
+        <div class="entry-card-body"><div class="textarea-display"  style="min-height:200px;">Content (Rating: 1): I think this concept for this book is really neat. It's a book of poems about wildlife in urban spaces, like moss in sidewalk cracks or mallard ducks at the park. I also love that at the back there is a list of fun facts about the different wildlife from the book. Some of these are weird, like how pigeon parents throw up milk to feed their young ones, but they're neat nonetheless. Lastly, I love that Tuttle includes a list of other related books at the end that readers can explore.
+
+Writing Style (Rating: 2): This book is a collection of poems, which I like. I also like some of the poetry techniques Tuttle incorporates, like thoughtful repetition and an occasional rhyme. Besides that, the writing fell a bit flat for me though. I wish the descriptions were a bit more creative.
+
+Illustrations (Rating: 1): I'm not sure exactly how these illustrations were done. They might be digital. They might also be mixed media. I wish there was a note toward the back on how they were done like I've seen in other books. In any case, the illustrations are well done. They have a nice sense of movement that ties together the hustle and bustle of the city and animal life.
+
+Overall (Rating: 2+): This book succeeds in that it is very teachable. By that, I mean there's a lot that young readers can learn from this book, both about animals and some about poetry. Still, the writing style isn't quite good enough for me to rate it a 1, and I wish it was a bit more creative.</div></div>
+      </div>
+
+      <div class="entry-card">
+        <div class="entry-card-header"><div class="entry-card-num" style="font-family: 'Playfair Display', serif; font-size:13px; color:var(--gold); min-width:28px; flex-shrink:0;">15.</div><div class="input-display"  >Hello, Lighthouse</div></div>
+        <div class="entry-card-meta">
+          <div class="input-display"  style="width:180px">Sophie Blackall</div>
+          <div class="input-display"  style="width:200px">Illus: Sophie Blackall</div>
+          <div class="input-display"  style="width:200px">2018 · Hachette Book Group</div>
+        </div>
+        <div class="entry-card-body"><div class="textarea-display"  style="min-height:200px;">Content (Rating: 1): This book is about the life of a lighthouse attendant. It is informational in the sense that it details all the things the attendant must do to keep the lighthouse going: all the winding the clockwork that turns the lens, trimming burned ends of wicks to fill lamps with oil, carrying that oil in heavy buckets up and down the staircase, playing checkers with an assistant to pass what little spare time they have. It's also emotional in the sense that it details how one particular lighthouse attendant and his wife care for each other: her taking care of him when he is sick, him taking care of her when she is pregnant.
+
+Writing Style (Rating: 2): The writing style is nice. However, it's not quite as nice as the style from her other book, so I'm giving it a 2. I miss the patterns from Farmhouse, the rhyme, and the great use of past tense.
+
+Illustrations (Rating: 1): These illustrations were similarly impressive to Farmhouse. Blackall doesn't use as many different mediums in this book – she only uses Chinese ink and watercolor – but these work so well for the lighthouse and especially for the waves. They have such movement to them, and their reflections of the sunrise and sunset are gorgeous.
+
+Overall (Rating: 1): I'm still giving this book a 1 because it's beautiful, just not a 1+ because I felt the writing style wasn't as strong as Farmhouse. Nor was the theme. Still, from reading the author's note, I think the narrative of a lighthouse attendant is one that needs to be told, and I'll be recommending this book to all my lighthouse lovers. Thinking of you, Grammie!</div></div>
+      </div>
+
+      <div class="entry-card">
+        <div class="entry-card-header"><div class="entry-card-num" style="font-family: 'Playfair Display', serif; font-size:13px; color:var(--gold); min-width:28px; flex-shrink:0;">16.</div><div class="input-display">The Proper Way to Meet a Hedgehog</div></div>
+        <div class="entry-card-meta">
+          <div class="input-display" style="width:180px">Paul B. Janeczko</div>
+          <div class="input-display" style="width:200px">Illus: Richard Jones</div>
+          <div class="input-display" style="width:200px">2019 · Candlewick Press</div>
+        </div>
+        <div class="entry-card-body"><div class="textarea-display" style="min-height:200px;">Content (Rating: 1): The content of this book is great. It's an expository text, a collection of how-to poems. These poems instruct readers how to build a poem, how to tell a camel, how to be a mole, and so much more. Parts like how to distinguish camels are very informative, parts like how to be a mole are cute, and parts like what to do if you're tired of your hair are laugh-out-loud hilarious.
+
+Writing Style (Rating: 1+): I have so many good things to say about the writing style of this book. It's informative, it's whimsical, and it's just neat. I love the way the authors play with the spacing in "how to build a poem" or the lettering in "how to tell a camel." But most importantly, even though it's an anthology, the writing style is so cohesive. It doesn't feel like there are multiple authors. I actually wouldn't have even known if the authors' names weren't listed below each entry.
+
+Illustrations (Rating: 2+): The illustrations are serviceable to the text, but they aren't anything particularly impressive. They are like sketches, and I'm assuming they were done in colored pencil. Some of the illustrations are also very minimalist, like for "walking on Mars," but I tend to like that. There's a good use of space.
+
+Overall (Rating: 1): I like this book! It's a great example of what an anthology can be, and I'm really happy to see authors that I recognize from our class (like Kwame Alexander) and concepts that I recognize too (windows and doors). This is a great book for leisure reading. It's simple but fun and can be read to any age group. I only hope that this book ages well and that we still have ice left for readers to connect to.</div></div>
+      </div>
+
+      <div class="entry-card">
+        <div class="entry-card-header"><div class="entry-card-num" style="font-family: 'Playfair Display', serif; font-size:13px; color:var(--gold); min-width:28px; flex-shrink:0;">17.</div><div class="input-display">Ice Cycle</div></div>
+        <div class="entry-card-meta">
+          <div class="input-display" style="width:180px">Maria Gianferrari</div>
+          <div class="input-display" style="width:200px">Illus: Jieting Chen</div>
+          <div class="input-display" style="width:200px">2022 · Millbrook Press</div>
+        </div>
+        <div class="entry-card-body"><div class="textarea-display" style="min-height:200px;">Content (Rating: 2+): I thought the content of this book was fine. It's just not my favorite topic. What is neat though is the section at the back. There are so many fun definitions and explanations of ice phenomena. I enjoyed learning about the shapes of icebergs (pinnacle, drydock, wedge, tabular) and the different parts of their life cycle. I think there was a missed opportunity to hint more at global warming and its effects on our ice, but I understand that it's also just for kids.
+
+Writing Style (Rating: 1): I don't think it's life-changing poetry, but I really appreciate how all the different poetic licenses are covered in this book. It could almost be used to teach poetry alongside science class. There's a display of language in moments like "Frost ferns. It swirls and curls. Its fronds unfurl. It binds and winds its feathery spines." There's a display of spacing in moments like "When winter snows stay for summer, layer, spread, and s t r e t c h as sheets." And so much more.
+
+Illustrations (Rating: 1): It says in the back of the book that Jieting Chen is an animator, and it looks like these illustrations were done digitally. Still, I like them. In particular, I love the sunset spread for the poem "And goes." So many beautiful shades of purple. I also love the next spread for the poem "Sea Ice Ages." The way the light reflects off the icicles in the cave is beautiful.
+
+Overall (Rating: 1-): Overall, this book is very informative, particularly in the back, and while it isn't on my favorite topic, I think the illustrations and poetry make it interesting. I can also imagine this book as useful for science and English teachers alike, which is neat.</div></div>
+      </div>
+
+      <div class="entry-card">
+        <div class="entry-card-header"><div class="entry-card-num" style="font-family: 'Playfair Display', serif; font-size:13px; color:var(--gold); min-width:28px; flex-shrink:0;">18.</div><div class="input-display">Firefly July</div></div>
+        <div class="entry-card-meta">
+          <div class="input-display" style="width:180px">Paul B. Janeczko</div>
+          <div class="input-display" style="width:200px">Illus: Melissa Sweet</div>
+          <div class="input-display" style="width:200px">2014 · Candlewick</div>
+        </div>
+        <div class="entry-card-body"><div class="textarea-display" style="min-height:200px;">Content (Rating: 1-): This book is a poetry collection about life in the four seasons. It starts with Spring and then goes through the cycle from there. Some of the poems are beautiful, and there is a wide variety of them, but the premise of the book is just so overdone that it's hard for me to give this collection a solid 1. I was also a bit confused as to how certain poems fit into the collection. Why does a poem about subway rush hour belong in the summer section?
+
+Writing Style (Rating: 1-): Some of these poems were absolutely beautiful. There's some really fresh descriptions like in "The Island" which goes: "Wrinkled stone / like an elephant's skin / on which young birches are treading." When you see the illustration of the stone island with birches on it, the comparison to elephant skin makes perfect sense. And obviously, poems by the likes of Langston Hughes and Robert Frost are bound to have a lovely writing style. Still, I miss the cohesion of Janeczko's other collection.
+
+Illustrations (Rating: 1-): I like these colored pencil sketches. Some of them do look a bit childish, but in a good way. There's a playfulness to the way the illustrations move across the page, from the budding flowers in spring and summer, to the wind carrying the leaves in fall and snow in winter.
+
+Overall (Rating: 1-): This is a nice collection that features some outstanding poets, so bravo to Janeczko. I simply don't rate it a 1 because I'd prefer a bit more cohesiveness in the subject matter and writing style.</div></div>
+      </div>
+
+      <div class="entry-card">
+        <div class="entry-card-header"><div class="entry-card-num" style="font-family: 'Playfair Display', serif; font-size:13px; color:var(--gold); min-width:28px; flex-shrink:0;">19.</div><div class="input-display">In Every Life</div></div>
+        <div class="entry-card-meta">
+          <div class="input-display" style="width:180px">Marla Frazee</div>
+          <div class="input-display" style="width:200px">Illus: Marla Frazee</div>
+          <div class="input-display" style="width:200px">2023 · Simon & Schuster</div>
+        </div>
+        <div class="entry-card-body"><div class="textarea-display" style="min-height:200px;">Content (Rating: 1+): Since the text is so short, I will copy it here. "In every birth, blessed is the wonder. In every smile, blessed is the light. In every hope, blessed is the doing. In every sadness, blessed is the comfort. In every moment, blessed is the mystery. In every love, blessed are the tears. And in every life, blessed is the love."
+
+Writing Style (Rating: 1+): I can't believe I'm giving a book this short a 1+, but the beauty of this book is in its simplicity. I love the repeated structure of "In every ______, blessed is ______." It's so hopeful to think that in every aspect of life, there is blessing, and it's so beautiful to let that thought fill the page. I feel like so often we give conditions to our blessings, but these simple sentences don't allow that.
+
+Illustrations (Rating: 1+): These illustrations are great. On the spreads with text, there are a series of tiny vignettes depicting moments that display the blessings. Then, there is always a spread with no text, and these are the ones I find to be the most beautiful. Each one leaves me marveling at the beauty of creation.
+
+Overall (Rating: 1+): Again, I can't believe that a book this short is deserving of a 1+, but it really is! The message is so important, and the way the illustrations are done really resonated with me. I also love Marla's dedication to her grandson, Arthur. The inspiration coming from a baby-naming blessing makes the book all the more special.</div></div>
+      </div>
+
+      <div class="entry-card">
+        <div class="entry-card-header"><div class="entry-card-num" style="font-family: 'Playfair Display', serif; font-size:13px; color:var(--gold); min-width:28px; flex-shrink:0;">20.</div><div class="input-display">I Wished For You</div></div>
+        <div class="entry-card-meta">
+          <div class="input-display" style="width:180px">Marianne Richmond</div>
+          <div class="input-display" style="width:200px">Illus: Marianne Richmond</div>
+          <div class="input-display" style="width:220px">2010 · Sourcebooks Jabberwocky</div>
+        </div>
+        <div class="entry-card-body"><div class="textarea-display" style="min-height:200px;">Content (Rating: 1+): The book is a recollection of Barley Bear's adoption story by his Mama bear. The story starts off with Barley asking his mama how her wish came true, and then he asks her a series of other questions that slowly unveiled his story. It's a beautiful premise, and an even more beautiful execution. Along the way, there is not only commentary about adoption but also about race and broader themes of family and love.
+
+Writing Style (Rating: 1): This story has a simple writing style, but it's very powerful. The way the story is framed as a series of questions and answers really adds to its innocence and truth. I also appreciate how the writing style is so accessible to younger audiences, as it makes this book a great resource for parents to share with their adopted children who might be struggling to find their place in this world.
+
+Illustrations (Rating: 1+): The watercolor illustrations are absolutely beautiful. They remind me a bit of Sochanita's from "The Things That Thicasano Hid," possibly also because the main character is a bear.
+
+Overall (Rating: 1+): I just think this book is such a needed story, and it's a great resource for parents of adopted children and also children who aren't adopted for they can build empathy from it. My favorite line is: "'Yes, Barley, it's okay,' she said. 'Some families look alike, and others don't. All families are different. What makes a family is their love for each other.'"</div></div>
+      </div>
+
+      <div class="entry-card">
+        <div class="entry-card-header"><div class="entry-card-num" style="font-family: 'Playfair Display', serif; font-size:13px; color:var(--gold); min-width:28px; flex-shrink:0;">21.</div><div class="input-display">The Fire of Stars</div></div>
+        <div class="entry-card-meta">
+          <div class="input-display" style="width:180px">Kirsten W. Larson</div>
+          <div class="input-display" style="width:200px">Illus: Katherine Roy</div>
+          <div class="input-display" style="width:200px">2023 · Chronicle Books</div>
+        </div>
+        <div class="entry-card-body"><div class="textarea-display" style="min-height:200px;">Content (Rating: 1): This book is about how stars are born. On the one hand, there is the story of how a literal star is born, from a cloud of dust and dirt to the shining light we see. On the other hand, there is the story of how figurative stars are born, like Cecilia Payne, the woman who discovered what stars are made of.
+
+Writing Style (Rating: 1): I like the writing style a lot. In particular, I like how there are two narratives being told at the same time. I also love how the language of stars is a part of the writing. For instance, Larson writes, "In physics class, Cecilia is the only woman in a galaxy of men." Starting the story with her feeling the cold touch of winter's snow, "the first time Cecilia learns things aren't always as they seem," was the perfect way to introduce her observative and inquisitive nature.
+
+Illustrations (Rating: 1): The illustrations appear to be done with a mix of paint and colored pencil, and they look great. I love the use of color, and I also love all the facial expressions, particularly the sun's face towards the middle of the book. The illustrations of stars and galaxies in the background are beautiful.
+
+Overall (Rating: 1): This was an informative book, and it's also a great example of how two stories can be told at the same time. The idea of Cecilia being a figurative star making revelations about real stars is clever. I also like the series of questions at the end — it fits the theme of scientific exploration very well.</div></div>
+      </div>
+
+      <div class="entry-card">
+        <div class="entry-card-header"><div class="entry-card-num" style="font-family: 'Playfair Display', serif; font-size:13px; color:var(--gold); min-width:28px; flex-shrink:0;">22.</div><div class="input-display">Berry Song</div></div>
+        <div class="entry-card-meta">
+          <div class="input-display" style="width:180px">Michaela Goade</div>
+          <div class="input-display" style="width:200px">Illus: Michaela Goade</div>
+          <div class="input-display" style="width:200px">2022 · Hachette</div>
+        </div>
+        <div class="entry-card-body"><div class="textarea-display" style="min-height:200px;">Content (Rating: 1): This book is about a girl who goes berrypicking with her grandmother. It follows their picking adventures through all four seasons, until one season the grandmother is no longer with her and the girl must show her younger sister how to pick berries instead. At the same time, this story is about how we interact with the land, how we sustain it and how it sustains us, and how we can show gratefulness for the goods it yields.
+
+Writing Style (Rating: 1): I think the writing style is nice. It's very flowery at times, which makes sense for a book about berries, but it's also somewhat simple. I also like the touch of native language, with the word Gunalchéesh appearing several times. It means thank you.
+
+Illustrations (Rating: 1): These illustrations look like colored pencil sketches. Whatever they are, it's beautiful though. It's a Caldecott Honor Book for a reason. What I like most about the pictures, besides their spectacular use of color, light, and shadow, is the joy that is painted into them. These illustrations make me want to grab a basket and go into the woods to pick some berries myself.
+
+Overall (Rating: 1): This is a very strong book. It takes a simple memory and uses it to teach us about the earth we call home. I learned about so many different types of berries, both in their English and indigenous names. My mom's been wanting to go to Alaska for a long time, and now I want to go with her!</div></div>
+      </div>
+
+      <div class="entry-card">
+        <div class="entry-card-header"><div class="entry-card-num" style="font-family: 'Playfair Display', serif; font-size:13px; color:var(--gold); min-width:28px; flex-shrink:0;">23.</div><div class="input-display">The Truth About Dragons</div></div>
+        <div class="entry-card-meta">
+          <div class="input-display" style="width:180px">Julie Leung</div>
+          <div class="input-display" style="width:200px">Illus: Hannah Cha</div>
+          <div class="input-display" style="width:200px">2023 · Macmillan</div>
+        </div>
+        <div class="entry-card-body"><div class="textarea-display" style="min-height:200px;">Content (Rating: 2+): In this book, a mother tells her son a tale about two different quests he might embark on to meet a dragon. Each quest has its own challenges and enjoyment, and each one ends with the boy meeting a different type of dragon. One lives underground and breathes fire. The other flies in the sky and commands the rain. The point of the story is that both dragons are true, just as both adventures are true, and the boy can choose "which world to discover."
+
+Writing Style (Rating: 1): The writing style is pretty, and there is such descriptive language like in the line, "In a sitting room that smells of incense and jasmine rice, she will serve you chrysanthemum tea in a delicate porcelain bowl." I also love how the story returns to key phrases like "And that would be one truth about dragons."
+
+Illustrations (Rating: 1): I want to say that these illustrations are paintings. They are very beautiful, and I was not surprised to discover the illustrator went to the Rhode Island School of Design. I'm really impressed by all the little details, both on the dragons and in the landscapes. I'm also impressed by the use of brush stroke.
+
+Overall (Rating: 1-): I would give this book a 1 if I had a better sense for the overall message. In particular, I was left wanting an explanation of the two grandmothers. Other than that, I thought the story was nice, and it's a nice representation of Eastern and Western mythologies.</div></div>
+      </div>
+
+      <div class="entry-card">
+        <div class="entry-card-header"><div class="entry-card-num" style="font-family: 'Playfair Display', serif; font-size:13px; color:var(--gold); min-width:28px; flex-shrink:0;">24.</div><div class="input-display">I'll Go and Come Back</div></div>
+        <div class="entry-card-meta">
+          <div class="input-display" style="width:180px">Rajani LaRocca</div>
+          <div class="input-display" style="width:200px">Illus: Sara Palacios</div>
+          <div class="input-display" style="width:200px">2022 · Candlewick</div>
+        </div>
+        <div class="entry-card-body"><div class="textarea-display" style="min-height:200px;">Content (Rating: 1-): This book is about a girl who flies to visit her relative in India one summer. She doesn't understand Tamil, which her grandmother speaks, and their cultures are different, but they make fond memories together. The next summer, the relative visits the girl. I didn't find anything about the content very original. However, it's a story that needs to be told since so many have relatives living on the other side of the world.
+
+Writing Style (Rating: 1-): I thought the writing style was fine. It was very simple, and somewhat like the plot, it wasn't very original. Still, there is a feeling of love that shines through the words on the page, and that has to count for something. After all, originality isn't quite as important as how the story makes you feel.
+
+Illustrations (Rating: 1): I like these illustrations. They are done in gouache and acrylic and have a nice storybook feel to them. Parts of them also felt like nice windows into India, which was nice for me as an American. I also like the endpapers.
+
+Overall (Rating: 1-): It's hard for me to give this book anything less than a 1 since this story is one that so many people can relate to, and it makes the reader feel something. I just wish it was a bit more original. Perhaps some more details about their specific relationship or some more niche activities that they do together.</div></div>
+      </div>
+
+      <div class="entry-card">
+        <div class="entry-card-header"><div class="entry-card-num" style="font-family: 'Playfair Display', serif; font-size:13px; color:var(--gold); min-width:28px; flex-shrink:0;">25.</div><div class="input-display">The Curious Why</div></div>
+        <div class="entry-card-meta">
+          <div class="input-display" style="width:180px">Angela DiTerlizzi</div>
+          <div class="input-display" style="width:220px">Illus: Lorena Alvarez Gómez</div>
+          <div class="input-display" style="width:200px">2024 · Hachette</div>
+        </div>
+        <div class="entry-card-body"><div class="textarea-display" style="min-height:200px;">Content (Rating: 1): This book is a poem about how when everything seems dull and there's nothing to do, simply being inquisitive can unlock so many doors. It's about all the exciting things that happen when you start to ask how, what, where, and when. It's about how fun learning can be, which is such an important message for young readers to see.
+
+Writing Style (Rating: 1): The book is a poem, and it's very whimsical. Some of the rhymes feel a bit forced, but others work so well. My favorite is, "So if you spot something curious, then… Why starts asking how, what, where, and when. Like how does this glow? And what makes this grow? And where in the world did the dinosaurs go?" The dinosaur line is a hilarious end rhyme.
+
+Illustrations (Rating: 2+): These illustrations were done digitally. They're serviceable to the text, but I just can't help but feel that they're slightly unoriginal. Or maybe just impersonable. I guess I feel that way about all digital art. I will say that the attention to detail in these pictures is great though.
+
+Overall (Rating: 1): This is such an important book that teaches children how fun it can be to ask questions and learn. The fact that it rhymes is the cherry on top. This is a book that I would read to any classroom, from kindergarten all the way through elementary school. It's never too late for a reminder to ask why.</div></div>
+      </div>
+
+      <div class="entry-card">
+        <div class="entry-card-header"><div class="entry-card-num" style="font-family: 'Playfair Display', serif; font-size:13px; color:var(--gold); min-width:28px; flex-shrink:0;">26.</div><div class="input-display">Salmon Run</div></div>
+        <div class="entry-card-meta">
+          <div class="input-display" style="width:180px">Annie Chen</div>
+          <div class="input-display" style="width:200px">Illus: Annie Chen</div>
+          <div class="input-display" style="width:200px">2025 · Red Comet Press</div>
+        </div>
+        <div class="entry-card-body"><div class="textarea-display" style="min-height:200px;">Content (Rating: 1): This book is a nonfiction book about the life of a salmon, specifically coho salmon. It is about their development from a tiny orange egg to an embryo, alevin, fry, and ultimately an adult. It is also about their journey as an adult to the ocean and back to reproduce. The journey is framed by the salmon's age in the top left corner of each spread.
+
+Writing Style (Rating: 1): The writing style of this book is informative, but it's also slightly lyrical. There's also a strong narrative sense to the writing. Annie Chen does a nice job blending the facts about salmon with the emotions of their journey.
+
+Illustrations (Rating: 1): These illustrations appear to be done in watercolor, perhaps with some colored pencil. The shading is so masterfully done, and the colors are really vibrant. Some of the paintings also have really nice abstract parts. For example, the spread illustrating the different stages of the salmon embryo has these swirls behind it that go from warm colors on the left to cool colors on the right.
+
+Overall (Rating: 1): This book is very informative and easy to read. The watercolor pictures are the cherry on top. I am not surprised that Annie Chen went to the Rhode Island School of Design and Brown University, although I am surprised that this is her debut children's book. Also, it doesn't hurt that she's from the great state of Georgia.</div></div>
+      </div>
+
+      <div class="entry-card">
+        <div class="entry-card-header"><div class="entry-card-num" style="font-family: 'Playfair Display', serif; font-size:13px; color:var(--gold); min-width:28px; flex-shrink:0;">27.</div><div class="input-display">Forests</div></div>
+        <div class="entry-card-meta">
+          <div class="input-display" style="width:180px">Nelly Cross Beckerman</div>
+          <div class="input-display" style="width:200px">Illus: Kalen Chock</div>
+          <div class="input-display" style="width:200px">2025 · Scholastic</div>
+        </div>
+        <div class="entry-card-body"><div class="textarea-display" style="min-height:200px;">Content (Rating: 1): This book is about the many different types of forests, from kelp to bamboo, jungle to urban. It is about how these forests are suffering because of humans, with increased wildfires and logging. It is also about how some humans have used their voices to help the forest, like Julia Butterfly Hill, who lived in a thousand year-old redwood so the logging company wouldn't cut it down. The book ends with, "But forests are shrinking. Silently shouting, SAVE US. Will you answer their call?"
+
+Writing Style (Rating: 1): I really like the writing style of this book. There is great use of sound. For example, on the page where the wildfire is spreading, Beckerman writes, "Oaks choke on the smoke." There are also a lot of original descriptions. For example, "Roots roam like tangled timber telephone lines." It's all very poetic.
+
+Illustrations (Rating: 1-): The illustrations look digital, and it says towards the back that the artist is an animator. I think they work fine. They're colorful, and they're very unified, with dots in each illustration that act as haze for the fire, bubbles for the kelp forest, and bugs in the forest.
+
+Overall (Rating: 1): I'd say this book is a success. Where the Ice Cycle book failed to raise awareness around humans' environmental impact, this one succeeds. I also love all the little details — I had no idea that sea otters wrap their bodies in kelp so they won't float away while they sleep!</div></div>
+      </div>
+
+      <div class="entry-card">
+        <div class="entry-card-header"><div class="entry-card-num" style="font-family: 'Playfair Display', serif; font-size:13px; color:var(--gold); min-width:28px; flex-shrink:0;">28.</div><div class="input-display">Sun Bird</div></div>
+        <div class="entry-card-meta">
+          <div class="input-display" style="width:180px">Lindsay Moore</div>
+          <div class="input-display" style="width:200px">Illus: Lindsay Moore</div>
+          <div class="input-display" style="width:200px">2025 · Harper Collins</div>
+        </div>
+        <div class="entry-card-body"><div class="textarea-display" style="min-height:200px;">Content (Rating: 1-): This book is about the arctic tern, the animal with the longest migration in the world. The book follows their 36,000 mile journey from the North Pole to Antarctica and back each year. It shows their interactions with other animals, from polar bears to sea turtles to penguins, and how they care for each other.
+
+Writing Style (Rating: 1-): The writing to this one is serviceable. Like the salmon book, it is somewhat a narrative, but it's mostly a bunch of facts about the life of an arctic tern. It isn't particularly beautiful, but it reads very smoothly and gets the job done. I just wish there was a bit more vivid imagery like in the last books by Beckerman.
+
+Illustrations (Rating: 1): These illustrations are very pretty. They appear to be mostly watercolor, with some colored pencil — similar to the salmon book! The colors aren't quite as vibrant though. Still, Moore does a good job capturing the movement of the arctic tern in flight. The other animals also look great. Realistic yet they each have their own personality. There is a little twinkle in their eyes.
+
+Overall (Rating: 1-): I think this is a fine book that teaches readers some fun facts about the arctic tern. I wish that the writing was a bit more beautiful, but I understand that's not really the point. I was surprised and happy to see that the author/illustrator went to the Medical College of Georgia, now Augusta University! Augusta is where I am from. It's a small world.</div></div>
+      </div>
+
+      <div class="entry-card">
+        <div class="entry-card-header"><div class="entry-card-num" style="font-family: 'Playfair Display', serif; font-size:13px; color:var(--gold); min-width:28px; flex-shrink:0;">29.</div><div class="input-display">Narwhal: The Arctic Unicorn</div></div>
+        <div class="entry-card-meta">
+          <div class="input-display" style="width:180px">Justin Anderson</div>
+          <div class="input-display" style="width:200px">Illus: Jo Weaver</div>
+          <div class="input-display" style="width:200px">2022 · Candlewick</div>
+        </div>
+        <div class="entry-card-body"><div class="textarea-display" style="min-height:200px;">Content (Rating: 1): This book is an informational book about narwhals, with a focus on their journey through sea ice to the Arctic, their encounters with predators like killer whales, their birthing process, and everything about their tusks. I learned so many cool facts, like how they weigh four times as heavy as a grand piano, and that only very few female narwhals have tusks, and that narwhals are the best animal when it comes to echolocation.
+
+Writing Style (Rating: 1): This book has two writing styles. There is that of the book itself, which is informational but also slightly lyrical ("with a crack and a creak, the frozen sea begins to melt") and there is that of the subtext, which is strictly informational. Both styles serve their purpose.
+
+Illustrations (Rating: 1): The illustrations were done in charcoal and colored digitally. I really like the use of charcoal, especially since narwhals are silver in color and live in an icy environment. The charcoal really adds to their cold isolation. That said, some of the illustrations look a bit drabby, even with the color.
+
+Overall (Rating: 1): One thing that I really appreciate about this book is its section towards the end titled, "The Future of the Narwhal." This section details the specific ways that climate change is threatening narwhals, like how less ice means less shelter from killer whales and increased competition for food. I thought this was a nice call to action.</div></div>
+      </div>
+
+      <div class="entry-card">
+        <div class="entry-card-header"><div class="entry-card-num" style="font-family: 'Playfair Display', serif; font-size:13px; color:var(--gold); min-width:28px; flex-shrink:0;">30.</div><div class="input-display">Golden Gate: Building the Mighty Bridge</div></div>
+        <div class="entry-card-meta">
+          <div class="input-display" style="width:180px">Elizabeth Partridge</div>
+          <div class="input-display" style="width:200px">Illus: Ellen Heck</div>
+          <div class="input-display" style="width:200px">2024 · Chronicle</div>
+        </div>
+        <div class="entry-card-body"><div class="textarea-display" style="min-height:200px;">Content (Rating: 1): This book is about the construction of the Golden Gate Bridge. It's about how some thought it was impossible to build a bridge spanning from land to land across the bay, but enough people worked together to make it happen, and eventually those doubts became less audible. It's about all the different types of work that it took to achieve, from people working on blueprints, to the barge running cable, to divers plunging down into the dark waters.
+
+Writing Style (Rating: 1): I love the writing style of this book. It's written in the second person, which I usually like. The narrative is also very poetic in the way each line flows to the next. For example, when the foreman brings the blueprints by, the narrator says, "No one has ever dared sink a foundation pier in tides like these. You know what people say: impossible. You cross your fingers and hope."
+
+Illustrations (Rating: 1): These illustrations were rendered in mixed media over red and orange paper. The color paper actually makes a huge difference, creating a Golden Gate Bridge feel. I also appreciate just how detailed these illustrations are. From the children's facial expressions to the landscape of the bay, it's all very beautiful.
+
+Overall (Rating: 1): I like this book. It reminds me of when I visited San Francisco when I was little. My mom was at a conference for work, and I'll never forget the first time I saw the Golden Gate Bridge. It's just so beautiful and, well, red. But I guess I of all people have an appreciation for red things.</div></div>
+      </div>
+
+    </div>
+    <button class="add-btn" onclick="addEntry('reading-list', 'Book Title', 'reading record notes')">+ Add Book</button>
+  </section>
+
+  <!-- 7. PICTURE BOOK -->
+  <section id="picture-book">
+    <div class="section-header">
+      <div class="section-number">07</div>
+      <div class="section-title-block">
+        <span class="section-accent accent-rust">Creative Work</span>
+        <h2>Picture Book</h2>
+      </div>
+    </div>
+
+    <div class="divider"><hr/><span>Book Info</span><hr/></div>
+    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px; max-width:600px; margin-bottom:32px;">
+      <div class="meta-field" style="border-top:1px solid var(--border); padding-top:14px;">
+        <label>Book Title</label>
+        <div class="input-display"  style="color:var(--deep); font-size:15px;">Goodbye, Mr. Richard!</div>
+      </div>
+      <div class="meta-field" style="border-top:1px solid var(--border); padding-top:14px;">
+        <label>Authors / Illustrators</label>
+        <div class="input-display"  style="color:var(--deep); font-size:15px;">Luke Frain</div>
+      </div>
+    </div>
+
+    <div class="divider"><hr/><span>Digital Access</span><hr/></div>
+    <div style="display:flex; flex-direction:column; gap:12px; max-width:600px;">
+      <div class="link-card">
+        <div class="link-icon">🔗</div>
+        <div style="flex:1;">
+          <div style="font-size:11px; text-transform:uppercase; letter-spacing:0.08em; color:var(--light); margin-bottom:6px;">Link to Digital Copy</div>
+          <a href="https://drive.google.com/file/d/1MiAzbIqi8NCRC19iCkIRQ2iwsfSuSIWb/view?usp=drivesdk" target="_blank" style="color:var(--rust); font-size:14px;">Click to open on Google Drive</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. BOOK STUDY PRESENTATION -->
+  <section id="book-study">
+    <div class="section-header">
+      <div class="section-number">08</div>
+      <div class="section-title-block">
+        <span class="section-accent accent-gold">Required ✦</span>
+        <h2>Book Study Presentation</h2>
+        <p>A copy of your book study slides and handout, plus a link once files are complete. Creative ideas for inclusion are welcome!</p>
+      </div>
+    </div>
+
+    <div style="display:flex; flex-direction:column; gap:16px; max-width:600px;">
+      <div class="link-card">
+        <div class="link-icon">📊</div>
+        <div style="flex:1;">
+          <div style="font-size:11px; text-transform:uppercase; letter-spacing:0.08em; color:var(--light); margin-bottom:6px;">Slides Link</div>
+          <div class="input-display"  placeholder="Link to presentation slides (Google Slides, Canva, etc.)" ></div>
+        </div>
+      </div>
+      <div class="link-card">
+        <div class="link-icon">📄</div>
+        <div style="flex:1;">
+          <div style="font-size:11px; text-transform:uppercase; letter-spacing:0.08em; color:var(--light); margin-bottom:6px;">Handout Link</div>
+          <div class="input-display"  placeholder="Link to handout document" ></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"><hr/><span>End of Portfolio</span><hr/></div>
+  </section>
+
+</main>
+
+<script>
+  // Populate remaining reading record rows (16-30)
+  const readingBody = document.getElementById('reading-body');
+  for (let i = 16; i <= 30; i++) {
+    readingBody.appendChild(makeReadingRow(i));
+  }
+
+  function makeReadingRow(num) {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td style="color:var(--light); font-size:12px; text-align:center;">${num}</td>
+      <td><div class="input-display"  ></div></td>
+      <td><div class="input-display"  ></div></td>
+      <td><div class="input-display"  ></div></td>
+      <td><div class="input-display"  style="width:110px"></div></td>
+      <td><div class="input-display"  ></div></td>
+    `;
+    return tr;
+  }
+
+  let rowCount = 30;
+  function addReadingRow() {
+    rowCount++;
+    readingBody.appendChild(makeReadingRow(rowCount));
+  }
+
+  function addEntry(listId, titlePlaceholder, notesPlaceholder) {
+    const list = document.getElementById(listId);
+    const card = document.createElement('div');
+    card.className = 'entry-card';
+    card.innerHTML = `
+      <div class="entry-card-header">
+        <div class="input-display"  ></div>
+      </div>
+      <div class="entry-card-meta">
+        <div class="input-display"  style="width:180px"></div>
+        <div class="input-display"  style="width:160px"></div>
+      </div>
+      <div class="entry-card-body">
+        <div class="textarea-display"  placeholder="Your ${notesPlaceholder}…"></div>
+      </div>
+    `;
+    list.appendChild(card);
+    card.querySelector('input').focus();
+  }
+
+  // Active nav link on scroll
+  const sections = document.querySelectorAll('section, .hero');
+  const navLinks = document.querySelectorAll('nav a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 200) current = s.id;
+    });
+    navLinks.forEach(a => {
+      a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+    });
+  });
+</script>
+</body>
+</html>
